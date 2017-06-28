@@ -136,6 +136,9 @@ public class ModelDaoImpl1 implements ModelDao {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("table", table);
 		params.put("pk", pk);
+		if(table.equals("stock")||table.equals("STOCK")){
+			return sqlSession.selectList("model.selectStockAll");
+		}
 		return sqlSession.selectList("model.selectAll", params);
 	}
 	

@@ -5,10 +5,17 @@
 <html>
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Insert title here</title>
+	<script type="text/javascript">
+		$('document').ready(function() {
+			$('li.active a').click(function(event) {
+				return false;
+			});
+		});
+	</script>
 </head>
 
 <body>
@@ -18,27 +25,28 @@
 	
 	<div class="col-lg-9 section text-center">
 		<div class="page-header text-center">
+	
 			<h3>점포 목록</h3>
 			<a href="../../erp/store/list">테스트</a>
 		</div>
-		<c:choose>
-		<c:when test="${list!=null }">
 		<div class="well">
 			<div class="row">
 				<form method="post" class="form-inline">
 					<div class="form-group col-sm-offset-1 col-sm-5">
-						<label for="area">지역</label>
-						<select name="area" class="form-control" id="goods_type">
-							<option value="서울">서울특별시</option>
-							<option value="부산">부산광역시</option>
+						<label for="wtype">제품 종류</label>
+						<select name="wtype" class="form-control" id="goods_type">
+							<option value="1">식기류</option>
+							<option value="2">요리기구</option>
+							<option value="3">의류</option>
+							<option value="4">식재료</option>
 						</select>
-						<button class="btn btn-default" type="submit">점포리스트 검색</button>
+						<button class="btn btn-default" type="submit">제품 이름 검색</button>
 					</div>
 				</form>
 				<form method="post" class="form-inline">
-					<div class="form-group text-left col-sm-5 col-sm-offset-1">
-						<label for="fname">점포</label>
-							<input type="text" class="form-control" name="fname" id="fname" placeholder="">
+					<div class="form-group text-left col-sm-5col-sm-offset-1">
+						<label for="wname">점포</label>
+							<input type="text" class="form-control" name="wname" id="wname" placeholder="">
 						<button class="btn btn-default" type="submit">점포검색</button>
 					</div>
 				</form>
@@ -57,27 +65,19 @@
 				<th>가맹점이름</th>
 				<th>가맹점전화번호</th>
 				<th>가맹점주소</th>
-				<th>옵션</th>
 			</tr>
 			<c:forEach items="${ list}" var="store">
 			<tr>
-				<td><a href="./detail/${store.FNUM}">${store.FNUM }</a></td>
-				<td><a href="./detail/${store.FNUM}">${store.FNAME }</a></td>
-				<td><a href="./detail/${store.FNUM}">${store.FPHONE }</a></td>
-				<td><a href="./detail/${store.FNUM}">${store.FADDRESS }</a></td>
-				<td class="text-center">
-				<a href="./edit/${store.FNUM}" class="btn btn-default" role="button">수정</a>
-				<a href="./delete/${store.FNUM}" class="btn btn-default" role="button">삭제</a>
-				</td>
+				<td><a href="./detail/${list.WNUM}">${list.WNUM }</a></td>
+				<td><a href="./detail/${list.WNUM}">${list.WNAME }</a></td>
+				<td><a href="./detail/${list.WNUM}">${list.WTYPE }</a></td>
+				
+				<a href="./edit/${list.WNUM}" class="btn btn-default" role="button">수정</a>
+				<a href="./delete/${list.WNUM}" class="btn btn-default" role="button">삭제</a>
 			</tr>
 			</c:forEach>
 			
 		</table>
-		</c:when>
-		<c:otherwise>
-		<h2>목록이 없습니다.</h2>
-		</c:otherwise>
-		</c:choose>
 		<div class="row">
 			<div class="col-sm-4 col-sm-offset-8">
 				<div class="well text-center">
@@ -85,9 +85,7 @@
 				</div>
 			</div>
 		</div>
-
-
-	</div>
+		</div>
 </body>
 
 </html>

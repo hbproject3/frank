@@ -301,17 +301,31 @@ public class ErpController{
 	
 
 	@RequestMapping(value="/erp/alarm/add",method={RequestMethod.GET,RequestMethod.POST})
-	public String alarmAdd(HttpServletRequest req){
+	public String alarmAdd(HttpServletRequest req, Model model){
 		try {
 			req.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
 		
+		
+		HashMap<String, Object> bean = new HashMap<String, Object>();
+		HttpSession sess = req.getSession();
+		
 		if(req.getMethod().equals("GET")){
+			//로그인 유저 가게 번호 불러서 jsp파일로 보내는 작업
+			Integer fnum = Integer.parseInt((String)sess.getAttribute(("fnum")));
+			model.addAttribute("myFnum", fnum);
 			
+			bean = new HashMap<String, Object>();
+			
+			try {
+				model.addAttribute("list", modelDao.selectList("franchise","FNUM"));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}else if(req.getMethod().equals("POST")){
-			HashMap<String, Object> bean = new HashMap<String, Object>();
+			bean = new HashMap<String, Object>();
 			String sub = req.getParameter("sub");
 			String cntnt = req.getParameter("cntnt");
 			bean.put("sub", sub);
@@ -369,7 +383,9 @@ public class ErpController{
 		return "erp/alarm_edit";
 			
 	}
-
+	
+	
+	
 	@RequestMapping("/erp/alarm/delete/{idx}")
 	public String alarmDelete(@PathVariable int idx){
 		Integer nowPage = null;
@@ -381,6 +397,32 @@ public class ErpController{
 		}
 		return "redirect:../" + nowPage;
 	}
+	
+	@RequestMapping(value="/erp/stock/list",method={RequestMethod.GET,RequestMethod.POST})
+	public String stockList (Model model, HttpServletRequest req){
+		try {
+			req.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		String wtype = req.getParameter("wtype");
+		String wname = req.getParameter("wname");
+		
+		try {
+			if(wtype == null && wname == null || req.getMethod().equals("GET")){
+					model.addAttribute("list", modelDao.selectList("stock","wtype"));
+			}else if(wtype!=null && req.getMethod().equals("POST")){
+					model.addAttribute("list", modelDao.searchListString("stock","wnum","wtype",wtype));
+			}else if (wname!=null && req.getMethod().equals("POST")) {
+				System.out.println("wname");
+					model.addAttribute("list", modelDao.searchListString("stock","wnum","wname",wname));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "erp/stock_list";
+	}	
+	
 	
 //store
 	@RequestMapping(value="/erp/store/list",method={RequestMethod.GET,RequestMethod.POST})
@@ -462,7 +504,9 @@ public class ErpController{
 			e1.printStackTrace();
 		}
 		
+		
 		if(req.getMethod().equals("GET")){
+			
 			return  "/erp/store_add";
 		}else if(req.getMethod().equals("POST")){
 			HashMap<String, Object> bean = new HashMap<String, Object>();
@@ -498,6 +542,8 @@ public class ErpController{
 		return "/erp/system_main";
 	}
 	
+	
+	
 	@RequestMapping(value="/erp/ware/list",method={RequestMethod.GET,RequestMethod.POST})
 	public String wareList (Model model, HttpServletRequest req){
 		try {
@@ -505,14 +551,14 @@ public class ErpController{
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-		Integer wtype = Integer.parseInt(req.getParameter("wtype"));
+		String wtype = req.getParameter("wtype");
 		String wname = req.getParameter("wname");
 		
 		try {
 			if(wtype == null && wname == null || req.getMethod().equals("GET")){
 					model.addAttribute("list", modelDao.selectList("ware","wnum"));
 			}else if(wtype!=null && req.getMethod().equals("POST")){
-					model.addAttribute("list", modelDao.searchListNum("ware","wnum","wtype",wtype));
+					model.addAttribute("list", modelDao.searchListString("ware","wnum","wtype",wtype));
 			}else if (wname!=null && req.getMethod().equals("POST")) {
 				System.out.println("wname");
 					model.addAttribute("list", modelDao.searchListString("ware","wnum","wname",wname));

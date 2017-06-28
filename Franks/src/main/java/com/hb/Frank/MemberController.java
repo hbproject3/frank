@@ -61,6 +61,7 @@ public class MemberController {
 			model.addAttribute("bean", bean);
 			session.setAttribute("bean", bean.getUnum());
 			session.setAttribute("uname", bean.getUname());
+			session.setAttribute("fnum", bean.getFnum());
 			return "erp/erpm";
 		}
 		
