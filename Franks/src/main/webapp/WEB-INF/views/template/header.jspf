@@ -1,0 +1,124 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
+<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+<link rel='stylesheet' href='../resources/css/pop.css'>
+<link rel='stylesheet' href='../resources/css/index.css'> 
+<link rel='stylesheet' href='../resources/css/tooltip.css'>
+<link rel='stylesheet' href='../resources/css/demo.css'>
+<link rel='stylesheet' href='../resources/css/main.css'>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../resources/js/bootstrap.min.js"></script>
+
+ <!-- 전체 컨테이너 -->
+   
+    <div class="container-fluid">
+       <!-- header -->
+        <div class="row header hidden-md-down" >
+            <!-- 모바일용 header -->
+            <div class="col-lg-3 "><img alt="" src="../resources/imgs/erp-logo.png" id="erp-logo"> </div>
+            <!-- pc용 header -->
+            <div class="col-lg-4 hidden-md-down">${uname } 님 환영합니다.</div>
+            <div class="col-lg-2 hidden-md-down"></div>
+            <div class="col-lg-3 hidden-md-down text-right"><a href="/Frank">로그아웃 ></a></div>
+        </div>
+        <!-- header 끝 -->
+        
+        <!-- 메뉴 -->
+        
+        <div class="row menus">
+            <div class="col-lg-12 menu1 ">
+            <nav class="navbar navbar-default navbar-inverse" role="navigation">
+            
+            <div class="navbar-header hidden-md-up" style="width:100%;">
+                <!-- 모바일용 버튼 -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                    <span class="sr-only">Toggle navigation</span>
+                </button>
+                
+                <!-- home 아이콘 -->
+                <a class="navbar-brand" href="/Frank/erp/erpm"><span class="icn-home"></span></a>
+        </div>
+            
+            <div class="navbar-header hidden-sm-down">
+                <!-- 모바일용 버튼 -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                    <span class="sr-only">Toggle navigation</span>
+                </button>
+                
+                <!-- home 아이콘 -->
+                <a class="navbar-brand" href="/Frank/erp/erpm"><span class="icn-home"></span></a>
+            </div>
+            
+               <div class="collapse navbar-collapse" id="navbar-collapse-01">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">재고관리<span class="icn-arrow-down5 arrowHeader"></span></a>
+                        <span class="dropdown-arrow"></span>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><span class="icon icon-barcode" style="display: inline-block"></span>&nbsp; 우리매장 재고</a></li>
+                            <li><a href="#"><span class="icon icon-box-add" style="display: inline-block"></span>&nbsp; 입고 관리</a></li>
+                            <li><a href="#"><span class="icon icon-box-remove" style="display: inline-block"></span>&nbsp; 출고 관리</a></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">매출관리<span class="icn-arrow-down5 arrowHeader"></span></a>
+                        <span class="dropdown-arrow"></span>
+                        <ul class="dropdown-menu">                         
+                            <li><a href="#">메뉴별 매출</a></li>
+                            <li><a href="#">기간별 매출</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">매장별 매출</a></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">주문<span class="icn-arrow-down5 arrowHeader"></span></a>
+                        <span class="dropdown-arrow"></span>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">주문하기</a></li>
+                            <li><a href="#"><span class="icon icon-truck" style="display: inline-block"></span> &nbsp; 주문내역</a></li>
+                            <li><a href="#">배송상태</a></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </li>
+                    <li class="dropdown">
+                    	<a data-toggle="dropdown" href="#">게시판<span class="icn-arrow-down5 arrowHeader"></span></a>
+                        <span class="dropdown-arrow"></span>
+                         <!-- 일반 드롭다운 메뉴 (메뉴가 하나씩 나옴) -->
+                        <ul class="dropdown-menu">
+                            <li><a href="../board/freeboard" title="Twitter"><span class="icn-document"></span> 자유게시판</a></li>
+                            <li><a href="../board/nproduct" title="Facebook"><span class="icn-search"></span> 공지사항</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" target="_blank" title="Google+"><span class="icn-cmd"></span> 신메뉴 건의 게시판</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="alarm">알림 <span class="navbar-new discountBall">10</span></a></li>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" href="#">직원관리<span class="icn-arrow-down5 arrowHeader"></span></a>
+                        <span class="dropdown-arrow"></span>
+                         <!-- 일반 드롭다운 메뉴 (메뉴가 하나씩 나옴) -->
+                        <ul class="dropdown-menu">
+                            <li><a href="member/memberList" title="Twitter"><span class="icn-twitter"></span> 직원추가</a></li>
+                            <li><a href="#" target="_blank" title="Facebook"><span class="icn-facebook"></span> 매장추가</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" target="_blank" title="Google+"><span class="icn-googleplus"></span> 직원교육</a></li>
+                            <li><a href="#" target="_blank" title="RSS" rel="nofollow"><span class="icn-rss"></span> 직원 교육확인</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+        </div>
+            <!-- /.navbar-collapse -->
+    </nav>
+    <!-- /navbar -->
+            </div>
+        </div>       
+        <!-- 메뉴 끝 -->
+        
+        <!-- content -->
+        <div class="row content" >

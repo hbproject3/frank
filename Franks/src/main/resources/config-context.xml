@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<beans:bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="oracle.jdbc.OracleDriver" p:url="jdbc:oracle:thin:@localhost:1521:shdata"
+		p:username="scott2" p:password="tiger" />
+		<!-- DB접속 정보를 바탕으로 커넥션을 만듬 -->
+
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:mapperLocations="classpath:/mappers/mapper*.xml" />
+	<!-- 만든 커넥션 정보를 바탕으로 + sql쿼리문 을 합쳐서 Bean객체로 만듬 -->
+	
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg ref="sqlSessionFactory"></beans:constructor-arg>
+	</beans:bean>
+	<!-- 만들어진 Bean 객체 -->
+	
+	<beans:bean id="memberdao" class="com.hb.Frank.model.dao.MemberDao"
+		p:sqlSession-ref="sqlSession" />
+	<beans:bean id="modelDao" class="com.hb.Frank.model.dao.ModelDaoImpl1"
+		p:sqlSession-ref="sqlSession"/>
+	<!-- Bean객체를 가져다 씀 (가지러 옴) -->
+	
+</beans:beans>
+

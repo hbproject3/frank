@@ -1,0 +1,78 @@
+    /* 페이지 전체 기본설정 */
+     * {
+            padding: 0px;
+            margin: 0px;
+
+        }
+        
+     body{
+    	overflow-x:hidden;
+    	height: 120%;
+    	min-width:405px;
+    }
+    /* 페이지 헤더 부분 css */    
+    .header {
+        position: fixed;
+        z-index: 5;
+        width:100%;
+        min-width: 375px;
+       
+    }
+    
+    
+    .header>* {
+        height: 40px;
+        line-height: 40px;
+        background-color: rgb(49, 52, 59);
+        border: rgb(57, 60, 66) solid 0.5px;
+        box-sizing: border-box;
+        color :#929699;
+    }
+    .header span {
+        float: right;
+    }
+    .msgs{
+        width: 25px;
+        height: 17px;
+    }
+     /* 페이지 상단 메뉴부분 css */   
+    .menus {
+    	min-width:380px;
+    	padding:0px;
+        margin: 40px 0px 0px 0px;
+    }
+ 	.navbar{
+    	margin: 0px;
+        width: 106%;
+        margin-left:-3%;
+        position: static;
+        display: inline-block;
+    }
+    .navbar-nav{
+        padding: 0;
+        -ms-overflow-style: none;
+    }
+    /* 페이지에 스크롤 없애기
+    ::-webkit-scrollbar {
+		display:none;
+	} 
+	*/
+    .navbar-header{
+        display: inline-block;
+        padding: 0;
+    }
+    .nav-tabs *{
+    	letter-spacing: 0.5em;
+    }
+    /*content 부분 기본 설정 css */
+    .content>* {       
+        background-color: rgb(236, 237, 242);
+    }
+
+    /* footer부분 css */
+    .footer {
+        background-color: rgb(52, 73, 94);        
+    }
+    .footer * {
+        color: rgb(136, 151, 164);
+    }

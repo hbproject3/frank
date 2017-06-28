@@ -1,0 +1,81 @@
+/*div.container>div>div {
+			border: 1px dotted black;
+		}
+		
+		div.jumbotron {
+			border: 1px dotted black;
+		}*/
+
+.header {
+	background-color: rgb(44, 62, 80);
+}
+
+button#search {
+	background-color: orange;
+	color: midnightblue;
+	font-weight: bold;
+	border: 1px solid black;
+}
+
+button#login {
+	background-color: bisque;
+	font-weight: bold;
+	border: 1px solid lightgray;
+}
+
+.jumbotron {
+	background-color: rgb(44, 62, 80);
+	color: white;
+}
+
+
+
+.navbar {
+	background-color: rgb(241, 196, 15);
+}
+
+.navbar li:hover {
+	background-color: darkorange;
+}
+
+.navbar .dropdown a {
+	color: black;
+	font-weight: bold;
+}
+
+/*affix*/
+.fix1 {
+	z-index: 3;
+}
+
+.affix {
+	top: 0px;
+	width: 100%;
+}
+
+.affix+.container-fluid {
+	padding-top: 280px;
+}
+
+/*.nav .open>a,
+.nav .open>a:focus,
+.nav .open>a:hover {
+	background-color: coral;
+	border-color: #337ab7;
+}*/
+
+.footer {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+	background-color: #efefef;
+	text-align: center;
+}
+
+#q_newstore {
+	background-color: rgb(44, 62, 80);
+	color: white;
+}
+

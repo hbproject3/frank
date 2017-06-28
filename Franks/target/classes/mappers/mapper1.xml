@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+<!-- 	<select id="selectAll" resultType="ArrayList" parameterType="String">
+		SELECT * FROM MEMBER WHERE ID = ${mid}
+	</select> -->
+	<select id="selectCount" resultType="int" parameterType="com.hb.Frank.model.dto.MemberVo" >
+		select count(*) from members where fid=#{fid} and upw=#{upw} 
+	</select>
+	<select id="selectOne" resultType="com.hb.Frank.model.dto.MemberVo" parameterType="String" >
+		select * from members where fid=#{fid} 
+	</select>
+	<!-- 직원관리 쿼리문 -->
+	<select id="selectAllMember" resultType="com.hb.Frank.model.dto.MemberVo" >
+		select * from members
+	</select>
+	<!-- <select id="deletsMember" parameterType="List">
+	
+		select * from member where unum = ${ }
+	</select> -->
+	<insert id="memberAdd" parameterType="com.hb.Frank.model.dto.MemberVo">
+		insert into members values(members_seq.nextval,#{uname},#{fid},#{upw},${utype},1000,#{phone},#{email})
+		<!-- insert into member values (member_seq.nextval,'김혜진','admin2','1234',2,1005,'0106281','ex@naver.com') -->
+	</insert>
+</mapper>

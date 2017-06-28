@@ -1,0 +1,12 @@
+hr {
+	border: 1px solid black;
+}
+
+div.container-fluid {
+	background-color: azure;
+}
+
+div.container-fluid>div.row>* {
+	background-color: white;
+	margin: 15px;
+}

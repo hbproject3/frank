@@ -1,0 +1,417 @@
+#s01,
+#s02,
+#s03 {
+    width: 100%;
+}
+
+#sources-img {
+    width: 100%;
+    padding: 20px 40px 0px 40px;
+}
+
+#source-inputs {
+    opacity: 0.3;
+}
+
+.sources {
+    opacity: 1.0;
+}
+
+.icons-title {
+    width: 100%;
+}
+
+#contact {
+    margin-bottom: 30px;
+}
+
+#logo {
+    transform: scale(0.9);
+    width: 300px;
+}
+
+#li {
+    color: black;
+    position: relative;
+    position: static;
+    line-height: 80px;
+}
+
+.nav-box {
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px dotted #f2f2f2;
+    opacity: 0.9;
+    line-height: 30px;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+logo {
+    width: 200px;
+    position: relative;
+    top: -130px;
+}
+
+.nav-bg {
+    position: relative;
+    z-index: 3;
+    background-image: url(..//imgs/main-bg2.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 620px;
+}
+
+li:last-child {
+    color: white;
+}
+
+li {
+    margin-left: 15px;
+}
+
+
+/*box蹂몃Ц*/
+
+.box1>div,
+.text1 {
+    padding: 30px;
+    margin: 50px 15px 50px 15px;
+}
+
+.box3 div>div {
+    border: 1px solid #f2f2f2;
+    box-sizing: padding-box;
+    width: 100%;
+    /*background-color: #ddd;*/
+    margin: 0px;
+    overflow: hidden;
+}
+
+img {
+    text-align: center;
+}
+
+.box2 h3 {
+    margin: 50px;
+}
+
+.box2 p {}
+
+#history-title {
+    margin-bottom: 40px;
+}
+
+.box2 {
+    background-color: #f2f2f2;
+    overflow: hidden;
+    padding: 70px 35px 70px 25px;
+}
+
+.box4 {
+    background-color: #f1f1f1
+}
+
+.drink {
+    padding-bottom: 100px;
+}
+
+.box4 div {
+    padding: 0px;
+}
+
+.box4 img {
+    width: 100%;
+}
+
+.box5 {
+    height: 600px;
+}
+
+.table {
+    background-color: white;
+}
+
+.qna-list {
+    border: 2px solid #e7e7e7;
+    padding: 120px 0px 120px 0px;
+}
+
+#qna-logo {
+    margin-bottom: 70px;
+}
+
+.footer p {
+    line-height: 30px;
+}
+
+.footer span,
+.footer h3 {
+    color: #e8cc30;
+    line-height: 70px;
+    letter-spacing: 0.5em;
+}
+
+.footer>div:nth-child(1) {
+    margin: 70px 0px 15px 0px;
+    letter-spacing: 0.5em;
+}
+
+.footer>div:nth-child(3) {
+    border-top: 1px solid black;
+}
+
+.footer {
+    color: #ddd;
+    background-image: url(../imgs/hot/celery-slaw.jpg);
+    background-size: 100%;
+    background-position: center;
+    background-blend-mode: multiply;
+    background-color: #293547;
+    margin: 0px;
+    min-height: 700px;
+    background-repeat: no-repeat;
+}
+
+.copy {
+    padding: 30px;
+}
+
+#sns {
+    opacity: 0.8;
+}
+
+.icons {
+    margin: 100px 30px 100px 30px;
+}
+
+.icons>div {
+    margin-bottom: 80px;
+}
+
+.icons>div>div h3 {
+    margin: 55px 0px 35px 0px;
+}
+
+.text03-in {
+    margin: 80px 20px 0px 20px
+}
+
+.text03 {
+    color: whitesmoke;
+    padding: 10% 9% 9% 9%;
+    background-image: url(../imgs/hot/spicy-mayo.jpg);
+    background-color: lightsteelblue;
+    background-blend-mode: multiply;
+    background-attachment: fixed;
+    background-position: top center;
+}
+
+.text03>div {
+    padding-bottom: 20px;
+}
+
+#h2-1 {
+    line-height: 2.2em;
+}
+
+.text03 p {
+    line-height: 2.8em;
+}
+
+.circle {
+    padding: 0px 7% 0px 7%;
+}
+
+.icons-in div:nth-child(1) {
+    margin-bottom: 10%;
+}
+
+.icons-in div {
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+#list-logo {
+    background-image: url(../imgs/menulist.png);
+    width: 100%;
+}
+
+table {
+    border-color: white;
+    border: none;
+}
+
+ul {}
+
+.nav {
+    position: absolute;
+    width: 100%;
+}
+
+#logo {
+    width: 200px;
+}
+
+#logo2 {
+    width: 160px;
+}
+
+* {
+    line-height: 35px;
+}
+
+.container-fluid {
+    margin: 0px;
+    padding: 0px;
+}
+
+.map {
+    background-color: #f2f2f2;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+ ::-webkit-scrollbar {
+    display: none;
+}
+
+
+/*�쓬�떇 硫붾돱�뙋*/
+
+* {
+    letter-spacing: 0.2em;
+}
+
+.img-overflow {
+    position: relative;
+    border-bottom: 1px solid #e1e1e1;
+    overflow: hidden;
+    text-align: center;
+}
+
+#foodfodd {
+    position: static;
+    top: 17px;
+    width: 100%;
+}
+#source-inputs {
+	word-break: break-all;
+}
+.menu-text {
+    letter-spacing: 0.3em;
+}
+.menu-text > p{
+	word-break:break-all;
+}
+.menu-detaile {
+    border-bottom: 1px solid #e7e7e7;
+    border-top: 1px solid #e7e7e7;
+    padding: 0px;
+    box-shadow: 0px 2px 2px 0px #e1e1e1;
+}
+
+.menu-detaile p {
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.menu-detaile p:nth-child(1),
+.menu-detaile p:nth-child(2) {
+    padding: 10px 10% 20px 10%;
+    margin: 30px;
+    line-height: 30px;
+}
+
+.menu-detaile p:nth-child(2) {
+    text-align: left;
+}
+
+.menu-detaile p:nth-child(3) {
+    padding: 5px;
+}
+
+.menu-detaile p:nth-child(4) {
+    background-color: #f2f1f1;
+    margin: 0px;
+    padding: 5px;
+}
+
+.buger {
+    padding: 5px;
+    width: 100%;
+    margin: 0px;
+}
+
+#under {
+    background-color: #F2CB61;
+    width: 10%;
+    height: 2px;
+}
+
+.store {
+    width: 100%;
+}
+.info-content * {
+    padding: 30px;
+}
+.card-bg {
+    background-image: url(../imgs/9.png);
+}
+.card-bg p {
+    position: relative;
+    top: 40%;
+}
+.card-content * {
+    padding: 10px;
+}
+.card-content img {
+    padding: 25px;
+}
+.card-content h4 {
+    padding: 15px;
+}
+ #info-content {
+            padding: 0px 30px 45px 30px;
+            text-align: left;
+          	max-height: 350px;
+        }
+/*�젏�룷臾몄쓽*/
+
+.call-box {
+    background-image: url(../imgs/bg2.png);
+    background-attachment: fixed;
+    padding-top: 90px;
+    padding-bottom: 90px;
+    background-color: red;
+}
+
+.call {
+    background-image: url(../imgs/frank2.png);
+    background-repeat: no-repeat;
+    background-size: 200px;
+    background-position: right;
+}
+
+#b {
+    width: 200px;
+    position: relative;
+    top: 40px;
+}
+
+.call-head {
+    text-align: center;
+    color: whitesmoke;
+}
+
+.form-group label,
+#qna-text {
+    color: #f2f2f2;
+}
+
+
+/*�젏�룷臾몄쓽*/

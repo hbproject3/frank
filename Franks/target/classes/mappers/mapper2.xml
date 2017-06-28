@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model">
+	<select id="selectAll" resultType="hAShmap" parameterType="hAShmap">
+		SELECT * FROM (select ROWNUM AS RNUM, i.* from ${table} i order by ${pk}) ORDER BY RNUM
+	</select>
+	
+	<!-- board sql -->
+	<!-- board bASic paging -->
+	<select id="boardList" resultType="hAShmap" parameterType="hAShmap">
+		SELECT * FROM (select ROWNUM AS RNUM, i.* from ${table} i order by ${pk}) ORDER BY RNUM DESC
+	</select>
+	<select id="boardCount" resultType="int" parameterType="String">
+		SELECT COUNT(ROWNUM) FROM ${value}
+	</select>
+	<select id="boardPageCount" resultType="int" parameterType="hAShmap">
+		SELECT RNUM FROM (SELECT ROWNUM AS RNUM, i.* from ${table} i) WHERE ${pk}=${idx}  
+	</select>
+	<select id="boardMax" resultType="int" parameterType="String">
+		SELECT MAX(ROWNUM) FROM ${value}
+	</select>
+	<select id="boardPaging" resultType="hAShmap" parameterType="hAShmap">
+		SELECT * FROM (SELECT ROWNUM AS RNUM, I.* FROM ${table} I ORDER BY ${pk}) WHERE RNUM BETWEEN ${min} AND ${max} ORDER BY RNUM DESC
+	</select>
+	<!-- board search paging -->
+	<select id="boardSearch" resultType="hAShmap" parameterType="hAShmap">
+		SELECT * FROM (select ROWNUM AS RNUM, T.* FROM ${table} t order by ${pk}) WHERE ${schema} LIKE '%'||#{text}||'%' ORDER BY RNUM DESC
+	</select>
+	<select id="boardDateSearch" resultType="hAShmap" parameterType="hAShmap">
+		SELECT ROWNUM AS RNUM, T.* FROM ${table} T WHERE ${schema} BETWEEN #{data1} AND #{date2}
+	</select>
+	<select id="boardSearchCount" resultType="int" parameterType="hAShmap">
+		SELECT COUNT(ROWNUM) FROM ${table} WHERE ${schema} LIKE '%'||#{text}||'%'
+	</select>
+	<select id="boardSearchPaging" resultType="hAShmap" parameterType="hAShmap">
+		SELECT * FROM (select ROWNUM AS RNUM, T.* FROM ${table} t order by ${pk}) WHERE ${schema} LIKE '%'||#{text}||'%' and RNUM BETWEEN ${min} and ${max} ORDER BY RNUM DESC
+	</select>
+	<!-- board detail -->
+	<select id="boardDetailOne" resultType="hAShmap" parameterType="hAShmap">
+		SELECT * FROM (SELECT ROWNUM AS RNUM, I.* FROM ${table} I ORDER BY RNUM DESC) WHERE ${pk} = ${idx}
+	</select>
+	<select id="boardViewPKnum" resultType="int" parameterType="hAShmap">
+		SELECT ${pk} FROM (SELECT ROWNUM AS RNUM, I.* FROM ${table} I ORDER BY RNUM DESC) WHERE ${pk} = ${idx}
+	</select>
+	<select id="boardViewPKstring" resultType="String" parameterType="hAShmap">
+		SELECT ${pk} FROM (SELECT ROWNUM AS RNUM, I.* FROM ${table} I ORDER BY RNUM DESC) WHERE ${pk} = ${idx}
+	</select>
+	<!-- board delete -->
+	<delete id="boardDeleteOne_String" parameterType="hAShmap">
+		DELETE FROM ${table} WHERE ${pk}=#{string}
+	</delete>
+	<delete id="boardDeleteOne_Num" parameterType="hAShmap">
+		DELETE FROM ${table} WHERE ${pk}=${idx}
+	</delete>
+	<!-- board view count -->
+	<select id="boardViewCnt" resultType="hAShmap" parameterType="hAShmap">
+		SELECT ${pk}, ${cnt} FROM (SELECT ROWNUM AS RNUM, i.* FROM ${table} i ORDER BY RNUM DESC) WHERE ${pk} = ${idx}
+	</select>
+	
+	<!-- alarm_Board -->
+	<insert id="alarmAdd" parameterType="hAShmap">
+		INSERT INTO INFORM (ANUM,ASUB,ACNTNT,ASDATE,ACHK) VALUES (ALARM_SEQ.nextVal,#{sub},#{cntnt},SYSDATE,0)
+	</insert>	
+	<update id="alarmUpCnt" parameterType="int">
+		UPDATE INFORM SET achk=1, ardate=SYSDATE WHERE anum = ${value}
+	</update>
+	<update id="alarmEdit" parameterType="hAShmap">
+		UPDATE INFORM SET ASub=#{sub}, acntnt=#{cntnt}, ASdate=SYSDATE, ardate=NULL, achk=0 WHERE anum = ${anum}
+	</update>
+	
+
+	<!-- store -->
+	<select id="searchListOption" parameterType="String" resultType="hAShmap">
+		SELECT * FROM (select ROWNUM AS rnum, t.* FROM ${table} t order by ${pk}) WHERE ${search_option} LIKE '%'||#{value}||'%' ORDER BY RNUM DESC
+	</select>
+	<insert id="storeAdd" parameterType="hAShmap">
+		INSERT INTO FRANCHISE (FNUM,FNAME,FPHONE,FADDRESS) VALUES (FRANCHISE_SEQ.nextVal,#{name},#{phone},#{address})
+	</insert>
+	<update id="storeEdit" parameterType="hAShmap">
+		UPDATE FRANCHISE SET fname=#{name}, fphone=#{cntnt}, faddress=#{address} # WHERE anum = ${anum}
+	</update>
+	
+	<!-- etc -->
+	<select id="selectOne" parameterType="int" resultType="com.hb.Frank.model.dto.AdminVo">
+		SELECT ROWNUM AS rnum, t.* FROM GUEST_DAY03 t WHERE SABUN=#{value}
+	</select>
+	<insert id="insertOne" parameterType="com.hb.Frank.model.dto.AdminVo">
+		INSERT INTO GUEST_DAY03 VALUES
+		(#{sabun},#{name},TO_CHAR(SYSDATE,'YYYY/MM/DD'),#{pay})
+	</insert>
+	<update id="updateOne" parameterType="com.hb.Frank.model.dto.AdminVo">
+		UPDATE GUEST_DAY03 SET NAME=#{name},PAY=#{pay} WHERE SABUN=#{sabun}
+	</update>
+	
+	
+</mapper>

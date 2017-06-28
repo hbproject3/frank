@@ -1,0 +1,104 @@
+/* 왼쪽 내용 css */
+    
+    .aside>div{
+    	min-width:375px;         
+        margin: 15px 2px;
+       /* border-radius:10px; */
+        background-color:white; 
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px;
+    }
+    .myinfo{
+        height:300px;
+    }
+    .msg{
+        height:195px;
+    }
+    .ntc{
+        height:205px;
+    }
+    
+    /* 오른쪽 내용 css */
+    .section>div{
+        min-width:375px;
+        /*border-radius:10px; */
+        background-color:white; 
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px;
+    }
+    .banner{
+       margin: 0px 15px;
+       height:150px;
+       background-image: url("../imgs/full.jpg");
+       background-repeat: no-repeat;
+       background-size: 100% 100%;
+       text-indent: -9999px;   
+    }
+    .shopinfo{
+       margin: 15px 15px;
+    }
+    
+    /* 중간 탭메뉴 제목부분 css */
+    .si_name{
+        padding-top:10px;
+        padding-left:20px;
+        padding-right:50px;
+    }
+    
+    /* 오른쪽 하단 공지사항,주문정보 부분 css */
+    .pannel{
+    	margin: 0px 15px;
+    }
+    .notice,.transfer{
+        min-width:375x; 
+        display:inline-block; 
+        box-shadow:border-box;
+    }
+    .li-style1,.li-style2 {
+    	width: 40px;
+   		height: 40px;
+   		line-height:0px;
+   		margin-left:10px;
+   		margin-right: 10px;
+    	background-size: 100%;
+    	background-repeat: no-repeat;
+    }
+    .notice-header{
+    	width: 100%;
+    	height: 49px;
+    	line-height:49px;
+    	box-sizing: border-box;
+    	border-bottom: 1px #bbb solid;
+    }
+    .li-style1 {
+    	background-image: url("../resources/imgs/m1.png");
+    }
+    .notice-cont{
+    	padding-left:20px;
+    	box-sizing: border-box;
+    	
+    }
+     .transfer-header{
+    	height: 49px;
+    	line-height:49px;
+    	box-sizing: border-box;
+    	border-bottom: 1px #bbb solid;
+    }
+   	.li-style2 {
+    	background-image: url("../resources/imgs/m2.png");
+    }
+    .transfer-cont{
+    	box-sizing: border-box;
+    	
+    }
+    .more {
+    	float:right;
+    	margin-right: 10px;
+    	margin-top: 15px;
+    	width:22px;
+    	width:22px;
+    }
+    .icon{
+    	display: inline-block;
+    }
+    #erp-logo {
+    	width: 200px;
+    }
