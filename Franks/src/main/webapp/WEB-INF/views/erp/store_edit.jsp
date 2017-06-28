@@ -17,60 +17,39 @@
 	</div>
 	
 	<div class="col-lg-9 section text-center">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12 panel panel-defaul">
-					<div class="page-header">
-						<h3 class="text-center">
-							알람
-						</h3>	
-						<hr>
-					</div>
+		<div class="row content container-fluid">
+			<h2 class="text-center"><strong>점포 수정</strong></h2>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h5>점포 정보</h5>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">
-					<h3>
-						사이드 바
-					</h3>
-				</div>
-				<div class="col-md-8">
-					<div class="row content container-fluid">
-						<h2 class="text-center"><strong>점포 수정</strong></h2>
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<h5>점포 정보</h5>
-							</div>
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-sm-2">
-										<dt>점포번호</dt>
-										<dd>${list.FNUM }</dd>
-									</div>
-									<div class="col-sm-2">
-										<dt>점포이름</dt>
-										<dd>${list.FNAME}</dd1>
-									</div>
-									<div class="col-sm-2">
-										<dt>전화번호</dt>
-										<dd>${list.FPHONE}</dd>
-									</div>
-									<div class="col-sm-2">
-										<dt>주소</dt>
-										<dd>${list.FADDRESS}</dd>
-									</div>
-									<br/>
-									<br/>
-									<a href="../../alarm/${nowPage }" class="btn btn-primary" role="button" id="list">목록</a>
-									<a href="../delete/${idx }" class="btn btn-danger" role="button">삭제</a>
-								</div>
-							</div>	
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-2">
+							<dt>점포번호</dt>
+							<dd>${list.FNUM }</dd>
 						</div>
+						<div class="col-sm-2">
+							<dt>점포이름</dt>
+							<dd>${list.FNAME}</dd1>
+						</div>
+						<div class="col-sm-2">
+							<dt>전화번호</dt>
+							<dd>${list.FPHONE}</dd>
+						</div>
+						<div class="col-sm-2">
+							<dt>주소</dt>
+							<dd>${list.FADDRESS}</dd>
+						</div>
+						<br/>
+						<br/>
+						<a href="../../alarm/${nowPage }" class="btn btn-primary" role="button" id="list">목록</a>
+						<a href="../delete/${idx }" class="btn btn-danger" role="button">삭제</a>
 					</div>
 				</div>	
 			</div>
-		</div>	
-	</div>		
+		</div>
+	</div>	
 </body>
 
 </html>
