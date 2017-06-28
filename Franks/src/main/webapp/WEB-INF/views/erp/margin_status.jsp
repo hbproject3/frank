@@ -8,10 +8,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Insert title here</title>
-	<link rel="stylesheet" href="../../resources/css/css1/bootstrap.min.css"/>
-	<link rel="stylesheet" href="../../resources/css/css1/erp1.css"/>
-	<script src="../../resources/js/jquery.min.js"></script>
-	<script src="../../resources/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		var barChartData1 = {
 			labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
