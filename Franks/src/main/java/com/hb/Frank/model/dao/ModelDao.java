@@ -70,6 +70,7 @@ public interface ModelDao {
 	void alarm_cnt(int idx, String table, String pk, String cnt) throws SQLException;
 	void alarm_edit(HashMap<String, Object> bean) throws SQLException;
 	void board_cnt(int idx, String table, String pk, String cnt) throws SQLException;
+	List<HashMap<String, Object>> selectType(String table, String pk) throws SQLException;
 	
 	
 	

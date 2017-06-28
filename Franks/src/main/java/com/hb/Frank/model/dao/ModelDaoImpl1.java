@@ -136,10 +136,16 @@ public class ModelDaoImpl1 implements ModelDao {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("table", table);
 		params.put("pk", pk);
-		if(table.equals("stock")||table.equals("STOCK")){
-			return sqlSession.selectList("model.selectStockAll");
+		
+		List<HashMap<String, Object>> list = null;
+		if(table.equalsIgnoreCase("stock")){
+			list = sqlSession.selectList("model.selectAllStock");
+			System.out.println(list);
+			return list;
 		}
-		return sqlSession.selectList("model.selectAll", params);
+		list = sqlSession.selectList("model.selectAll", params);
+		System.out.println(list);
+		return list;
 	}
 	
 	@Override
@@ -314,11 +320,11 @@ public class ModelDaoImpl1 implements ModelDao {
 		params.put("schema", schema);
 		params.put("pk", pk);
 		
-		if(search_type.equals("sub")){
+		if(search_type.equalsIgnoreCase("sub")){
 			list = sqlSession.selectList("model.boardSearch", params);
-		}else if(search_type.equals("cntnt")){
+		}else if(search_type.equalsIgnoreCase("cntnt")){
 			list = sqlSession.selectList("model.boardSearch", params);
-		}else if(search_type.equals("author")){
+		}else if(search_type.equalsIgnoreCase("author")){
 			list = sqlSession.selectList("model.boardSearch", params);
 		}
 
@@ -575,6 +581,15 @@ public class ModelDaoImpl1 implements ModelDao {
 			params.put("nowcnt", nowcnt);
 			sqlSession.update("model.boardUpCnt", params);
 		}
+	}
+
+	@Override
+	public List<HashMap<String, Object>> selectType(String table, String pk) throws SQLException{
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("table", table);
+		params.put("pk", pk);
+		
+		return sqlSession.selectList("model.selectAllType", params);
 	}
 
 	

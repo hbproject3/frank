@@ -6,6 +6,9 @@
 	<select id="selectAll" resultType="hashmap" parameterType="hashmap">
 		SELECT * FROM (select ROWNUM AS RNUM, i.* from ${table} i order by ${pk}) ORDER BY RNUM
 	</select>
+	<select id="selectAllType" resultType="hashmap" parameterType="hashmap">
+		SELECT distinct ${pk} from ${table} order by ${pk}
+	</select>
 	
 	<!-- board sql -->
 	<!-- board bASic paging -->
@@ -58,6 +61,9 @@
 	<select id="boardViewCnt" resultType="hashmap" parameterType="hashmap">
 		SELECT ${pk}, ${cnt} FROM (SELECT ROWNUM AS RNUM, i.* FROM ${table} i ORDER BY RNUM DESC) WHERE ${pk} = ${idx}
 	</select>
+	<update id="boardUpCnt" parameterType="hashmap">
+		UPDATE ${table} SET ${cnt}=${nowcnt} WHERE ${pk} = ${idx}
+	</update>
 	
 	<!-- alarm_Board -->
 	<insert id="alarmAdd" parameterType="hashmap">
@@ -94,5 +100,8 @@
 		UPDATE GUEST_DAY03 SET NAME=#{name},PAY=#{pay} WHERE SABUN=#{sabun}
 	</update>
 	
-	
+	<!-- stock -->
+	<select id="selectAllStock" resultType="hashmap">
+		 SELECT * FROM (select ROWNUM AS RNUM, s.fnum, s.wnum, s.nowstock, s.instock, s.outstock, s.udate,  w.wname, w.wtype from stock s, ware w where s.wnum = w.wnum order by fnum) ORDER BY wtype
+	</select>
 </mapper>

@@ -59,12 +59,12 @@ public class ErpController{
 				String sess_type = (String) sess.getAttribute("searType");
 				System.out.println("쨉쨉횁횩"+sess);
 				
-				if(sess_type.equals("sub")){
+				if(sess_type.equalsIgnoreCase("sub")){
 					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"headnotice","BSUB","BNUM", idx));
 					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"headnotice","BSUB",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"headnotice","BSUB", idx));
 				}
-				if(sess_type.equals("cntnt")){
+				if(sess_type.equalsIgnoreCase("cntnt")){
 					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"headnotice","BCNTNT","BNUM", idx));
 					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"headnotice","BCNTNT",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"headnotice","BCNTNT", idx));
@@ -82,13 +82,13 @@ public class ErpController{
 				sess.setAttribute("searType", search_type);
 				sess.setAttribute("searText", search_text);	
 				
-				if(search_type.equals("sub")){
+				if(search_type.equalsIgnoreCase("sub")){
 					
 					model.addAttribute("list", modelDao.board_searchPaging(search_type, search_text,"headnotice","BSUB", "BNUM", idx));
 					startend = modelDao.pageSearch_startEnd(search_type, search_text,"headnotice","BSUB",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"headnotice","BSUB", idx));
 				}
-				if(search_type.equals("cntnt")){
+				if(search_type.equalsIgnoreCase("cntnt")){
 					model.addAttribute("list", modelDao.board_searchPaging(search_type, search_text,"headnotice","BCNTNT", "BNUM", idx));
 					startend = modelDao.pageSearch_startEnd(search_type, search_text,"headnotice","BCNTNT",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"headnotice","BCNTNT", idx));
@@ -177,11 +177,11 @@ public class ErpController{
 				alarm(model); //ÇÁ·ÐÆ®¾Øµå·Î Á¦¾îÇÒÁö, ¹é¾Øµå·Î Á¦¾îÇÒÁö °í¹Î Áß
 				
 			}else if(search_text != null && req.getMethod().equals("POST")){
-				if(search_type.equals("sub")){
+				if(search_type.equalsIgnoreCase("sub")){
 					model.addAttribute("alist", modelDao.board_search(search_type, search_text,"inform","ASUB","ANUM"));
 					
 				}
-				if(search_type.equals("cntnt")){
+				if(search_type.equalsIgnoreCase("cntnt")){
 					model.addAttribute("alist", modelDao.board_search(search_type, search_text,"inform","ACNTNT","ANUM"));
 				}
 				//if(search_type == "author") model.addAttribute("alist", modelDao.board_search(search_type, search_text,"inform","A"));
@@ -226,12 +226,12 @@ public class ErpController{
 				String sess_type = (String) sess.getAttribute("searType");
 				System.out.println("µµÁß"+sess);
 				
-				if(sess_type.equals("sub")){
+				if(sess_type.equalsIgnoreCase("sub")){
 					model.addAttribute("alist", modelDao.board_searchPaging(sess_type, sess_text,"inform","ASUB","ANUM", idx));
 					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"inform","ASUB",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"INFORM","ASUB", idx));
 				}
-				if(sess_type.equals("cntnt")){
+				if(sess_type.equalsIgnoreCase("cntnt")){
 					model.addAttribute("alist", modelDao.board_searchPaging(sess_type, sess_text,"inform","ACNTNT","ANUM", idx));
 					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"inform","ACNTNT",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"INFORM","ACNTNT", idx));
@@ -249,13 +249,13 @@ public class ErpController{
 				sess.setAttribute("searType", search_type);
 				sess.setAttribute("searText", search_text);	
 				
-				if(search_type.equals("sub")){
+				if(search_type.equalsIgnoreCase("sub")){
 					
 					model.addAttribute("alist", modelDao.board_searchPaging(search_type, search_text,"inform","ASUB", "ANUM", idx));
 					startend = modelDao.pageSearch_startEnd(search_type, search_text,"inform","ASUB",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"INFORM","ASUB", idx));
 				}
-				if(search_type.equals("cntnt")){
+				if(search_type.equalsIgnoreCase("cntnt")){
 					model.addAttribute("alist", modelDao.board_searchPaging(search_type, search_text,"inform","ACNTNT", "ANUM", idx));
 					startend = modelDao.pageSearch_startEnd(search_type, search_text,"inform","ACNTNT",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"INFORM","ACNTNT", idx));
@@ -407,15 +407,25 @@ public class ErpController{
 		}
 		String wtype = req.getParameter("wtype");
 		String wname = req.getParameter("wname");
-		
+		Integer fnum = null;
+		if(req.getParameter("fnum") != null){
+			fnum = Integer.parseInt(req.getParameter("fnum"));
+		}
+	
 		try {
-			if(wtype == null && wname == null || req.getMethod().equals("GET")){
-					model.addAttribute("list", modelDao.selectList("stock","wtype"));
+			model.addAttribute("stores", modelDao.selectList("franchise","FNUM"));
+			model.addAttribute("type", modelDao.selectType("ware","wtype"));
+			
+			if(wtype == null && wname == null && fnum == null || req.getMethod().equals("GET")){
+				model.addAttribute("list", modelDao.selectList("stock", null));
 			}else if(wtype!=null && req.getMethod().equals("POST")){
-					model.addAttribute("list", modelDao.searchListString("stock","wnum","wtype",wtype));
+				model.addAttribute("list", modelDao.searchListString("stock","wnum","wtype",wtype));
 			}else if (wname!=null && req.getMethod().equals("POST")) {
 				System.out.println("wname");
-					model.addAttribute("list", modelDao.searchListString("stock","wnum","wname",wname));
+				model.addAttribute("list", modelDao.searchListString("stock","wnum","wname",wname));
+			}else if (fnum!=null && req.getMethod().equals("POST")) {
+				System.out.println("wname");
+				model.addAttribute("list", modelDao.searchListNum("stock","wnum","fnum",fnum));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -555,6 +565,8 @@ public class ErpController{
 		String wname = req.getParameter("wname");
 		
 		try {
+			model.addAttribute("type", modelDao.selectType("ware","wtype"));
+		
 			if(wtype == null && wname == null || req.getMethod().equals("GET")){
 					model.addAttribute("list", modelDao.selectList("ware","wnum"));
 			}else if(wtype!=null && req.getMethod().equals("POST")){

@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.hb.Frank">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

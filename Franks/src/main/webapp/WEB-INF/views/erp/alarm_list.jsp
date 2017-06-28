@@ -35,8 +35,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="table-responsive">
-					<C:choose>
-					<C:when test="${alist!=null }">
+					<C:if test="${alist!=null }">
 					<table class="table table-hover">
 						<thead>
 							<tr class="info">
@@ -66,11 +65,10 @@
 							</C:forEach>									
 						</tbody>
 					</table>
-					</C:when>
-					<C:otherwise>
+					</C:if>
+					<C:if test="${alist==null }">
 						<h2>아무런 데이터가 존재하지 않습니다.</h2>
-					</C:otherwise>
-					</C:choose>
+					</C:if>
 				</div>
 			</div>
 		</div>	

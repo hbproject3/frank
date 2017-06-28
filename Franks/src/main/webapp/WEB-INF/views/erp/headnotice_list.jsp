@@ -30,6 +30,7 @@
 			<input type="hidden" name="list" value="back">
 		</form>
 		<h2 class="text-center" id="point"><strong><a href="" onclick="$('#lookback').submit(); return false;">알림 목록</a></strong></h2>
+		<C:if test="${list!=null }">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="table-responsive">
@@ -89,11 +90,16 @@
 				
 				<br>
 			</div>
+		</C:if>
+		<C:if test="${list==null }">
+			<h3>내용이 없습니다.</h3>
+		</C:if>	
 			<div class="col-sm-2 text-right">
 				<br>
 				<a href="./add" class="btn btn-primary" role="button">쓰기</a>
 			</div> 
 		</div>
+		<C:if test="${list!=null }">
 		<div class="text-center">
 			<br/>
 			<form method="POST" class="form-inline" >
@@ -120,6 +126,7 @@
 				<button class="btn btn-primary" type="submit">검색</button>
 			</form>
 		</div>
+		</C:if>		
 		<!-- 게시판 끝 -->
 	
 	</div>
