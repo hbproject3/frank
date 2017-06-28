@@ -11,52 +11,58 @@
 </head>
 
 <body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 panel panel-defaul">
-				<div class="page-header">
-					<h3 class="text-center">
-						알람
-					</h3>	
-					<hr>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3">
-				<h3>
-					사이드 바
-				</h3>
-			</div>
-			<div class="col-md-8">
-				<div class="row content">
-					<h1 class="text-center "><strong>알림</strong></h1>
-					<br/>
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							<h5 class="text-center">글 쓰기</h5>
-						</div>
-						<div class="panel-body">
-							<form method="post"  modelAttribute="hashmap">
-								<label for="sub">제목</label>
-								<input class="form-control" type="text" name="sub" id="sub" placeholder="제목을 쓰세요"/>
-								<br/>
-								<label for="cntnt">내용</label>
-								<textarea class="form-control detail_textarea" rows="5" name="cntnt" placeholder="내용을 입력해주세요" style="background-color: white; color: black"></textarea>
-								<br/>
-								<br/>
-								<div class="text-center">
-									<button type="submit" class="btn btn-info" role="button">글쓰기</button>
-									<a href="./1" class="btn btn-primary" role="button">목록</a>
-									<button type="reset" class="btn btn-warning" role="button">취소</button>
-								</div>	
-							</form>
-						</div>
+	<div class="col-lg-3 aside text-center">
+	ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
+	</div>
+	
+	<div class="col-lg-9 section text-center">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 panel panel-defaul">
+					<div class="page-header">
+						<h3 class="text-center">
+							알람
+						</h3>	
+						<hr>
 					</div>
 				</div>
-			</div>	
-		</div>
-	</div>		
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<h3>
+						사이드 바
+					</h3>
+				</div>
+				<div class="col-md-8">
+					<div class="row content">
+						<h1 class="text-center "><strong>알림</strong></h1>
+						<br/>
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<h5 class="text-center">글 쓰기</h5>
+							</div>
+							<div class="panel-body">
+								<form method="post"  modelAttribute="hashmap">
+									<label for="sub">제목</label>
+									<input class="form-control" type="text" name="sub" id="sub" placeholder="제목을 쓰세요"/>
+									<br/>
+									<label for="cntnt">내용</label>
+									<textarea class="form-control detail_textarea" rows="5" name="cntnt" placeholder="내용을 입력해주세요" style="background-color: white; color: black"></textarea>
+									<br/>
+									<br/>
+									<div class="text-center">
+										<button type="submit" class="btn btn-info" role="button">글쓰기</button>
+										<a href="./1" class="btn btn-primary" role="button">목록</a>
+										<button type="reset" class="btn btn-warning" role="button">취소</button>
+									</div>	
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>		
+	</div>	
 </body>
 
 </html>

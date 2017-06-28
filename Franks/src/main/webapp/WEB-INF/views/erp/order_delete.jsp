@@ -11,6 +11,11 @@
 </head>
 
 <body>
+	<div class="col-lg-3 aside text-center">
+	ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
+	</div>
+	
+	<div class="col-lg-9 section text-center">
 		<div class="row">
 			<div class="col-md-12 panel panel-defaul">
 				<div class="page-header">
@@ -65,7 +70,7 @@
 				</div>
 			</div>
 		</div>
-	
+	</div>
 </body>
 
 </html>

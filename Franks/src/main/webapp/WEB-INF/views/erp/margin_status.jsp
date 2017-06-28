@@ -78,107 +78,113 @@
 </head>
 
 <body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 panel panel-defaul">
-				<div class="page-header">
-					<h3 class="text-center">
-						재고 조회 페이지
-					</h3>
-					<hr>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3">
-				<h3>
-					사이드 바
-				</h3>
-			</div>
-			<div class="col-md-8">
-				<div class="page-header text-center">
-
-					<h3>매출 현황</h3>
-					<div class="col-sm-6 col-sm-offset-3 text-center">
-						<div class="well">
-							<label for="mrgn_year">검색년도</label>
-							<input type="number" name="mrgn_year" id="mrgn_year" value="2016" min="2016" max="2020" placeholder="">
-							<button type="search" class="btn  btn-primary">검색</button>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="panel panel-default col-sm-offset-1 col-sm-10">
-						<div class="panel-body" style="height:350px;">
-							<h4 class="text-center">월 매출</h4>
-							<small>(단위: 만)</small>
-							<div>
-								<canvas id="canvas1" height="40%" width="100%">	
-								</canvas>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6 col-sm-offset-3 text-center">
-						<div class="well">
-							<label for="mrgn_month">검색할 달</label>
-							<input type="month" value="2017-06" name="mrgn_month" id="mrgn_month" placeholder="">
-							<button type="search" class="btn  btn-primary">검색</button>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="panel panel-default col-sm-offset-1 col-sm-10">
-						<div class="panel-body" style="height:350px;">
-							<h4 class="text-center">월 매출</h4>
-							<small>(단위: 만)</small>
-							<div>
-								<canvas id="canvas2" height="40%" width="100%">	
-								</canvas>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6 col-sm-offset-3 text-center">
-						<div class="well">
-							<label for="mrgn_day">검색일자</label>
-							<input type="date" name="mrgn_day" id="mrgn_day" value="2017-06-22" min="2016-01-01" max="2020-01-01" placeholder="">
-							<button type="search" class="btn btn-primary">검색</button>
-						</div>
-					</div>
-				</div>
-				<h2 class="text-center">시간대별 매출</h2>
-				<div class="row">
-					<div class="col-sm-8 col-sm-offset-2">
-						<table class="table table-bordered">
-							<tr class="info">
-								<th>시간</th>
-								<th>시간대별 판매 횟수</th>
-								<th>판매 금액</th>
-							</tr>
-							<tr>
-								<td>s</td>
-								<td>s</td>
-								<td>s</td>
-							</tr>	
-						</table>
-					</div>
-				</div>
-				<div class="row">
-					<div class="panel panel-default col-sm-offset-1 col-sm-10">
-						<div class="panel-body" style="height:350px;">
-							<h4 class="text-center">매출 비중</h4>
-							<div id="canvas-holder">
-								<canvas id="canvas3" width="100%" height="40%" />
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="col-lg-3 aside text-center">
+	ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
 	</div>
+	
+	<div class="col-lg-9 section text-center">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 panel panel-defaul">
+					<div class="page-header">
+						<h3 class="text-center">
+							재고 조회 페이지
+						</h3>
+						<hr>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<h3>
+						사이드 바
+					</h3>
+				</div>
+				<div class="col-md-8">
+					<div class="page-header text-center">
+	
+						<h3>매출 현황</h3>
+						<div class="col-sm-6 col-sm-offset-3 text-center">
+							<div class="well">
+								<label for="mrgn_year">검색년도</label>
+								<input type="number" name="mrgn_year" id="mrgn_year" value="2016" min="2016" max="2020" placeholder="">
+								<button type="search" class="btn  btn-primary">검색</button>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="panel panel-default col-sm-offset-1 col-sm-10">
+							<div class="panel-body" style="height:350px;">
+								<h4 class="text-center">월 매출</h4>
+								<small>(단위: 만)</small>
+								<div>
+									<canvas id="canvas1" height="40%" width="100%">	
+									</canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3 text-center">
+							<div class="well">
+								<label for="mrgn_month">검색할 달</label>
+								<input type="month" value="2017-06" name="mrgn_month" id="mrgn_month" placeholder="">
+								<button type="search" class="btn  btn-primary">검색</button>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="panel panel-default col-sm-offset-1 col-sm-10">
+							<div class="panel-body" style="height:350px;">
+								<h4 class="text-center">월 매출</h4>
+								<small>(단위: 만)</small>
+								<div>
+									<canvas id="canvas2" height="40%" width="100%">	
+									</canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3 text-center">
+							<div class="well">
+								<label for="mrgn_day">검색일자</label>
+								<input type="date" name="mrgn_day" id="mrgn_day" value="2017-06-22" min="2016-01-01" max="2020-01-01" placeholder="">
+								<button type="search" class="btn btn-primary">검색</button>
+							</div>
+						</div>
+					</div>
+					<h2 class="text-center">시간대별 매출</h2>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<table class="table table-bordered">
+								<tr class="info">
+									<th>시간</th>
+									<th>시간대별 판매 횟수</th>
+									<th>판매 금액</th>
+								</tr>
+								<tr>
+									<td>s</td>
+									<td>s</td>
+									<td>s</td>
+								</tr>	
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="panel panel-default col-sm-offset-1 col-sm-10">
+							<div class="panel-body" style="height:350px;">
+								<h4 class="text-center">매출 비중</h4>
+								<div id="canvas-holder">
+									<canvas id="canvas3" width="100%" height="40%" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
 </body>
 
 </html>
