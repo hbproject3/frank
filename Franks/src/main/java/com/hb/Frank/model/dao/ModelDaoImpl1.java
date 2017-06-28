@@ -19,6 +19,7 @@ import com.hb.Frank.model.dto.StoreStockVo;
 import com.hb.Frank.model.dto.StoreWorkerVo;
 
 public class ModelDaoImpl1 implements ModelDao {
+	private SqlSessionFactory sqlSessionFactory;
 	private SqlSession sqlSession;
 	private static Logger log = Logger.getLogger(ModelDaoImpl1.class);
 	
@@ -102,21 +103,29 @@ public class ModelDaoImpl1 implements ModelDao {
 	}
 
 	@Override
-	public List<HashMap<String, Object>> so_storeList(String table, String pk, String search_option, String value) throws SQLException {
+	public List<HashMap<String, Object>> searchListString(String table, String pk, String search_option, String value) throws SQLException {
 		HashMap<String,Object> params = new HashMap<String,Object>();
 		params.put("pk", pk);
 		params.put("table", table);
 		params.put("search_option", search_option);	
-		params.put("value", value);
+		params.put("val", value);
 
-		List<HashMap<String, Object>> list = null;
+		List<HashMap<String, Object>> list = sqlSession.selectList("model.searchListOptionString", params);
 		
-		if(search_option.equals("area")){
-			list = sqlSession.selectList("model.searchListOption", params);
-		}else if(search_option.equals("fname")){
-			list = sqlSession.selectList("model.searchListOption", params);
-		}
-		
+		System.out.println(list);
+		return list;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> searchListNum(String table, String pk, String search_option, Integer value) throws SQLException {
+		HashMap<String,Object> params = new HashMap<String,Object>();
+		params.put("pk", pk);
+		params.put("table", table);
+		params.put("search_option", search_option);	
+		params.put("val", value);
+
+		List<HashMap<String, Object>> list = sqlSession.selectList("model.searchListOptionNum", params);
+	
 		System.out.println(list);
 		return list;
 	}
@@ -447,8 +456,8 @@ public class ModelDaoImpl1 implements ModelDao {
 		System.out.println(result);
 		
 		// ����! ������ �빮�� warning: you must type the names of parameters in Uppercase
-		int nowcnt = Integer.parseInt(String.valueOf(result.get("ACHK")));
-		int anum = Integer.parseInt(String.valueOf(result.get("ANUM")));
+		int nowcnt = Integer.parseInt(String.valueOf(result.get(pk.toUpperCase())));
+		int anum = Integer.parseInt(String.valueOf(result.get(cnt.toUpperCase())));
 
 		System.out.println("nowcnt: " + nowcnt + " anum: " + anum);
 		
@@ -536,6 +545,33 @@ public class ModelDaoImpl1 implements ModelDao {
 	public void store_edit(HashMap<String, Object> bean) throws SQLException {
 		sqlSession.update("model.so_storeEdit", bean);
 		
+	}
+
+	@Override
+	public void board_cnt(int idx, String table, String pk, String cnt) throws SQLException {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("table", table);
+		params.put("pk", pk);
+		params.put("cnt", cnt);
+		params.put("idx", idx);
+		
+		
+		HashMap<String, Object> result = sqlSession.selectOne("model.boardViewCnt", params);
+		System.out.println(result);
+		
+		// ����! ������ �빮�� warning: you must type the names of parameters in Uppercase
+		int pkv = Integer.parseInt(String.valueOf(result.get(pk.toUpperCase())));
+		int cntv = Integer.parseInt(String.valueOf(result.get(cnt.toUpperCase())));
+
+		System.out.println(pk+": " + pkv +" " + cnt+ ": " + cntv);
+		
+		int nowcnt = cntv + 1;
+
+
+		if(nowcnt > cntv){
+			params.put("nowcnt", nowcnt);
+			sqlSession.update("model.boardUpCnt", params);
+		}
 	}
 
 	

@@ -26,6 +26,127 @@ public class ErpController{
 	private ModelDao modelDao;
 	private static final Logger logger = LoggerFactory.getLogger(ErpController.class);
 	
+	@RequestMapping(value={"/erp/headnotice/{idx}"} ,method={RequestMethod.POST,RequestMethod.GET})
+	public String headnoticeSearch (@PathVariable int idx, Model model, HttpServletRequest req){
+		try {
+			req.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		String search_text = req.getParameter("search_text");	
+		String search_type = req.getParameter("search_type");
+		 
+		Map<String, Integer> startend = null;
+		HttpSession sess = req.getSession();
+		try {
+			if(req.getParameter("search_text") == null && req.getMethod().equals("POST") || sess.getAttribute("searText") == null && req.getMethod().equals("GET") || req.getParameter("list")!= null && req.getMethod().equals("POST")){
+				sess.setAttribute("searType", null);
+				sess.setAttribute("searText", null);
+				
+				if(!( req.getParameter("search_text") == null && req.getMethod().equals("GET") ) ){
+					idx = 1;
+				}
+				
+				System.out.println("쨍쨍쨌찼"+sess);
+				model.addAttribute("list", modelDao.board_paging(idx,"headnotice","bnum"));
+				startend = modelDao.page_startEnd(idx,"headnotice");		
+				
+				model.addAttribute("links", modelDao.board_pagelinks(idx, "headnotice"));
+			
+			}else if(sess.getAttribute("searText") != null && req.getMethod().equals("GET")){
+				String sess_text = (String) sess.getAttribute("searText");
+				String sess_type = (String) sess.getAttribute("searType");
+				System.out.println("쨉쨉횁횩"+sess);
+				
+				if(sess_type.equals("sub")){
+					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"headnotice","BSUB","BNUM", idx));
+					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"headnotice","BSUB",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"headnotice","BSUB", idx));
+				}
+				if(sess_type.equals("cntnt")){
+					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"headnotice","BCNTNT","BNUM", idx));
+					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"headnotice","BCNTNT",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"headnotice","BCNTNT", idx));
+				}
+				//if(sess_type == "author") model.addAttribute("board", modelDao.board_search(sess_type, sess_text,"headnotice","B"));
+				
+				model.addAttribute("sess_text", (String) sess.getAttribute("searText"));
+				model.addAttribute("sess_type", (String) sess.getAttribute("searType"));
+				
+			}else if(req.getParameter("search_text") != null && req.getMethod().equals("POST")) {
+				
+				idx = 1;
+				
+				System.out.println("세션: "+sess);
+				sess.setAttribute("searType", search_type);
+				sess.setAttribute("searText", search_text);	
+				
+				if(search_type.equals("sub")){
+					
+					model.addAttribute("list", modelDao.board_searchPaging(search_type, search_text,"headnotice","BSUB", "BNUM", idx));
+					startend = modelDao.pageSearch_startEnd(search_type, search_text,"headnotice","BSUB",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"headnotice","BSUB", idx));
+				}
+				if(search_type.equals("cntnt")){
+					model.addAttribute("list", modelDao.board_searchPaging(search_type, search_text,"headnotice","BCNTNT", "BNUM", idx));
+					startend = modelDao.pageSearch_startEnd(search_type, search_text,"headnotice","BCNTNT",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"headnotice","BCNTNT", idx));
+				}
+				//if(search_type == "author") model.addAttribute("board", modelDao.board_search(search_type, search_text,"headnotice","B"));
+				
+				
+				model.addAttribute("sess_text", (String) sess.getAttribute("searText"));
+				model.addAttribute("sess_type", (String) sess.getAttribute("searType"));
+			}
+		
+			int pageNum = startend.get("pageNum");
+			int colCnt = ((idx - 1) / 5) + 1; 
+			int maxCol = ((pageNum - 1) / 5) + 1 ;
+			int nextCol = (idx-1) / 5 * 5 + 6;
+			
+			if(idx > pageNum){
+				return "error/404";
+			}
+			
+			//model.addAttribute("links", links);
+			model.addAttribute("idx", idx);
+			model.addAttribute("colCnt", colCnt);
+			model.addAttribute("maxCol", maxCol);
+
+			if(colCnt == 1) {
+				if (maxCol > 1){
+					model.addAttribute("nextPg", startend.get("nextPage"));
+				}else if(maxCol == 1){}
+			}else if(colCnt > 1) {
+				if (colCnt < maxCol){
+					model.addAttribute("prevPg", startend.get("prevPage"));
+					model.addAttribute("nextPg", startend.get("nextPage"));
+				}else if(colCnt == maxCol) {
+					model.addAttribute("prevPg", startend.get("prevPage"));
+				}	
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return "erp/headnotice_list";
+	}	
+	
+	@RequestMapping(value="/erp/headnotice/detail/{idx}", method=RequestMethod.GET)
+	public String headnoticeDetail(@PathVariable int idx, Model model){
+		try{
+			model.addAttribute("detail", modelDao.board_detail(idx, "headnotice", "bnum"));
+			modelDao.board_cnt(idx, "headnotice", "bnum", "bcnt");
+			model.addAttribute("nowPage", modelDao.board_nowPage(idx, "headnotice", "bnum"));
+			model.addAttribute("idx", idx);
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		return "erp/headnotice_detail";	
+	}	
+	
+	
 	@RequestMapping("/erp/alarm")
 	public String alarm(Model model){
 		try {
@@ -71,43 +192,6 @@ public class ErpController{
 
 		return "erp/alarm_list";
 	}	
-
-//	@RequestMapping(value="/erp/alarm/{idx}",method=RequestMethod.GET)
-//	public String alarmPages(@PathVariable int idx, Model model){
-//		try {
-//			model.addAttribute("alist", modelDao.board_select(idx,"INFORM"));
-//			Map<String, Integer> startend = modelDao.page_startEnd(idx,"INFORM");
-//			
-//			int pageNum = startend.get("pageNum");
-//			int colCnt = ((idx-1)/ 5 )+1; 
-//			int maxCol = ((pageNum - 1)/ 5 ) + 1 ;
-//			
-//			if(idx > pageNum){
-//				return "error/404";
-//			}
-//			
-//			System.out.println(maxCol);
-//			model.addAttribute("links", modelDao.board_pagelinks(idx, "INFORM"));	
-//			model.addAttribute("idx", idx);
-//			model.addAttribute("colCnt", colCnt);
-//			model.addAttribute("maxCol", maxCol);
-//	
-//			if(colCnt > 1 && colCnt < maxCol ) {
-//				model.addAttribute("prevPg", startend.get("prevPage"));
-//				model.addAttribute("nextPg", startend.get("nextPage"));
-//			}else if(colCnt < 2) {
-//				if (maxCol > 2){
-//					model.addAttribute("nextPg", startend.get("nextPage"));
-//				}else{}
-//			}else if(colCnt == maxCol) {
-//				model.addAttribute("prevPg", startend.get("prevPage"));
-//			}
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return "erp/alarm_list";
-//	}
 	
 	@RequestMapping(value={"/erp/alarm/{idx}"} ,method={RequestMethod.POST,RequestMethod.GET})
 	public String alarmSearch (@PathVariable int idx, Model model, HttpServletRequest req){
@@ -192,17 +276,6 @@ public class ErpController{
 				return "error/404";
 			}
 			
-			//|| req.getParameter("sty") != null && req.getParameter("ste") != null)
-			//			if(req.getParameter("hiddentext") != null && req.getParameter("hiddentext").equals(search_text) ){
-			//				search_text = req.getParameter("hiddentext");
-			//				search_type = req.getParameter("hiddentype");
-			//			}else{
-							
-			//			}
-			
-			
-			
-			//model.addAttribute("links", links);
 			model.addAttribute("idx", idx);
 			model.addAttribute("colCnt", colCnt);
 			model.addAttribute("maxCol", maxCol);
@@ -309,65 +382,7 @@ public class ErpController{
 		return "redirect:../" + nowPage;
 	}
 	
-	@RequestMapping("/erp/edu/menu")
-	public String eduMenu(){
-		return "/erp/edu_menu";
-	}
-	@RequestMapping("/erp/edu/test")
-	public String eduTest(){
-		return "/erp/edu_test";
-	}
-	@RequestMapping("/erp/goods/stock/manage")
-	public String gdstkmanage(){
-		return "/erp/goodsStock_manage";
-	}
-	@RequestMapping("/erp/head-alarm")
-	public String headAlarm(){
-		return "/erp/head_alarm";
-	}
-	@RequestMapping("/erp/margin/detail")
-	public String mrgnDetail(){
-		return "/erp/margin_detail";
-	}
-	@RequestMapping("/erp/margin/menu")
-	public String mrgnMenu(){
-		return "/erp/margin_menu";
-	}
-	@RequestMapping("/erp/margin/rank")
-	public String mrgnRank(){
-		return "/erp/margin_rank";
-	}
-	@RequestMapping("/erp/margin/store")
-	public String mrgnStore(){
-		return "/erp/margin_store";
-	}
-	@RequestMapping("/erp/mystore/info")
-	public String myStoreInfo(){
-		return "/erp/mystore_info";
-	}
-	@RequestMapping("/erp/order/add")
-	public String orderAdd(){
-		return "/erp/order_add";
-	}
-	@RequestMapping("/erp/order/delete")
-	public String orderDel(){
-		return "/erp/order_delete";
-	}
-	@RequestMapping("/erp/order/list")
-	public String orderList(){
-		return "/erp/order_list";
-	}
-	@RequestMapping("/erp/order/modify")
-	public String orderModify(){
-		return "/erp/order_modify";
-	}
-	@RequestMapping("/erp/rev-cost")
-	public String revCost(){
-		return "/erp/revenue_cost";
-	}
-
-	
-
+//store
 	@RequestMapping(value="/erp/store/list",method={RequestMethod.GET,RequestMethod.POST})
 	public String storeList (Model model, HttpServletRequest req){
 		try {
@@ -380,12 +395,12 @@ public class ErpController{
 		
 		try {
 			if(area == null && fname == null || req.getMethod().equals("GET")){
-					model.addAttribute("slist", modelDao.selectList("franchise","FNUM"));
+					model.addAttribute("list", modelDao.selectList("franchise","FNUM"));
 			}else if(area!=null && req.getMethod().equals("POST")){
-					model.addAttribute("slist", modelDao.so_storeList("franchise","fnum","area",area));
+					model.addAttribute("list", modelDao.searchListString("franchise","fnum","faddress",area));
 			}else if (fname!=null && req.getMethod().equals("POST")) {
 				System.out.println("fname");
-					model.addAttribute("slist", modelDao.so_storeList("franchise","fnum","fname",fname));
+					model.addAttribute("list", modelDao.searchListString("franchise","fnum","fname",fname));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -465,6 +480,7 @@ public class ErpController{
 		return "/erp/store_add";
 	}
 	
+//ware
 	@RequestMapping("/erp/store/delete/{idx}")
 	public String storeDelete(@PathVariable int idx){
 		Integer nowPage = null;
@@ -477,16 +493,94 @@ public class ErpController{
 		return "redirect:../" + nowPage;
 	}
 
-
-	@RequestMapping("/erp/store/stock")
-	public String storeStock(){
-		return "/erp/storeStock_search";
-	}
-
 	@RequestMapping("/erp/main")
 	public String intro(){
 		return "/erp/system_main";
 	}
 	
+	@RequestMapping(value="/erp/ware/list",method={RequestMethod.GET,RequestMethod.POST})
+	public String wareList (Model model, HttpServletRequest req){
+		try {
+			req.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		Integer wtype = Integer.parseInt(req.getParameter("wtype"));
+		String wname = req.getParameter("wname");
+		
+		try {
+			if(wtype == null && wname == null || req.getMethod().equals("GET")){
+					model.addAttribute("list", modelDao.selectList("ware","wnum"));
+			}else if(wtype!=null && req.getMethod().equals("POST")){
+					model.addAttribute("list", modelDao.searchListNum("ware","wnum","wtype",wtype));
+			}else if (wname!=null && req.getMethod().equals("POST")) {
+				System.out.println("wname");
+					model.addAttribute("list", modelDao.searchListString("ware","wnum","wname",wname));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "erp/ware_list";
+	}	
+	
+	
+//	@RequestMapping("/erp/edu/menu")
+//	public String eduMenu(){
+//		return "/erp/edu_menu";
+//	}
+//	@RequestMapping("/erp/edu/test")
+//	public String eduTest(){
+//		return "/erp/edu_test";
+//	}
+//	@RequestMapping("/erp/goods/stock/manage")
+//	public String gdstkmanage(){
+//		return "/erp/goodsStock_manage";
+//	}
+//	@RequestMapping("/erp/margin/detail")
+//	public String mrgnDetail(){
+//		return "/erp/margin_detail";
+//	}
+//	@RequestMapping("/erp/margin/menu")
+//	public String mrgnMenu(){
+//		return "/erp/margin_menu";
+//	}
+//	@RequestMapping("/erp/margin/rank")
+//	public String mrgnRank(){
+//		return "/erp/margin_rank";
+//	}
+//	@RequestMapping("/erp/margin/store")
+//	public String mrgnStore(){
+//		return "/erp/margin_store";
+//	}
+//	@RequestMapping("/erp/mystore/info")
+//	public String myStoreInfo(){
+//		return "/erp/mystore_info";
+//	}
+//	@RequestMapping("/erp/order/add")
+//	public String orderAdd(){
+//		return "/erp/order_add";
+//	}
+//	@RequestMapping("/erp/order/delete")
+//	public String orderDel(){
+//		return "/erp/order_delete";
+//	}
+//	@RequestMapping("/erp/order/list")
+//	public String orderList(){
+//		return "/erp/order_list";
+//	}
+//	@RequestMapping("/erp/order/modify")
+//	public String orderModify(){
+//		return "/erp/order_modify";
+//	}
+//	@RequestMapping("/erp/rev-cost")
+//	public String revCost(){
+//		return "/erp/revenue_cost";
+//	}
+//	@RequestMapping("/erp/store/stock")
+//	public String storeStock(){
+//		return "/erp/storeStock_search";
+//	}
+	
+
 
 }
