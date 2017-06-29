@@ -78,8 +78,11 @@
 	
 
 	<!-- store -->
-	<select id="searchListOption" parameterType="String" resultType="hashmap">
-		SELECT * FROM (select ROWNUM AS rnum, t.* FROM ${table} t order by ${pk}) WHERE ${search_option} LIKE '%'||#{value}||'%' ORDER BY RNUM DESC
+	<select id="searchListOptionString" parameterType="String" resultType="hashmap">
+		SELECT * FROM (select ROWNUM AS rnum, t.* FROM ${table} t order by ${pk}) WHERE ${search_option} LIKE '%'||#{val}||'%' ORDER BY RNUM DESC
+	</select>
+	<select id="searchListOptionNum" parameterType="String" resultType="hashmap">
+		SELECT * FROM (select ROWNUM AS rnum, t.* FROM ${table} t order by ${pk}) WHERE ${search_option}=${val} ORDER BY RNUM DESC
 	</select>
 	<insert id="storeAdd" parameterType="hashmap">
 		INSERT INTO FRANCHISE (FNUM,FNAME,FPHONE,FADDRESS) VALUES (FRANCHISE_SEQ.nextVal,#{name},#{phone},#{address})
@@ -103,5 +106,28 @@
 	<!-- stock -->
 	<select id="selectAllStock" resultType="hashmap">
 		 SELECT * FROM (select ROWNUM AS RNUM, s.fnum, s.wnum, s.nowstock, s.instock, s.outstock, s.udate,  w.wname, w.wtype from stock s, ware w where s.wnum = w.wnum order by fnum) ORDER BY wtype
+	</select>
+	<select id="searchStockListOptionString" parameterType="String" resultType="hashmap">
+		SELECT * 
+		FROM 
+			(select ROWNUM AS RNUM, s.fnum, s.wnum, s.nowstock, s.instock, s.outstock, s.udate,  w.wname, w.wtype 
+			from stock s, ware w 
+			where s.wnum = w.wnum  
+			order by fnum)  
+		where ${search_option} LIKE '%'||#{val}||'%'  
+		ORDER BY wtype
+	</select>
+	<select id="searchStockListOptionNum" parameterType="String" resultType="hashmap">
+		SELECT * 
+		FROM 
+			(select ROWNUM AS RNUM, s.fnum, s.wnum, s.nowstock, s.instock, s.outstock, s.udate,  w.wname, w.wtype 
+			from stock s, ware w 
+			where s.wnum = w.wnum  
+			order by fnum)  
+		where ${search_option}=${val}  
+		ORDER BY wtype
+	</select>
+	<select id="selectStockStoreType" resultType="hashmap" parameterType="hashmap">
+		SELECT f.fname from stock s franchise f where s.fnum = f.num group by fname;
 	</select>
 </mapper>

@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="C" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -31,44 +30,42 @@
 			<input type="hidden" name="list" value="back">
 		</form>
 		<h2 class="text-center" id="point"><strong><a href="" onclick="$('#lookback').submit(); return false;">알림 목록</a></strong></h2>
-		
+		<C:if test="${list!=null }">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="table-responsive">
-					<C:if test="${list!=null }">
 					<table class="table table-hover">
 						<thead>
 							<tr class="info">
-								<th>알림번호</th>
-								<th>선택</th>
-								<th>제목</th>
-								<th>발신날짜</th>
-								<th>수신날짜</th>
-								<th>알림확인여부</th>
+								<th>문의 번호</th>
+								<th>문의자 이름</th>
+								<th>문의자 연락처</th>
+								<th>창업지역</th>
+								<th>매장종류</th>
+								<th>매장규모</th>
+								<th>질의분야</th>
+								<th>상태</th>
 							</tr>
 						</thead>
 						<tbody>
-							<C:forEach items="${list }" var="alarm">
+							<C:forEach items="${list }" var="board">
 								<tr>
-									<td>${alarm.ANUM }</td>
-									<td><input type="checkbox" name="checkbox"></td>
-									<td><a href="./detail/${alarm.ANUM }">${alarm.ASUB }</a></td>
-									<td><fmt:formatDate value="${alarm.ASDATE}" pattern="yyyy.MM.dd"/></td>
-									<td><fmt:formatDate value="${alarm.ARDATE}" pattern="yyyy.MM.dd"/></td>
-									<C:if test="${alarm.ACHK == 1 }">
-									<td>확인</td>
+									<td>${board.QNUM }</td>
+									<td><a href="./detail/${board.QNUM }">${board.QNAME }</a></td>
+									<td><a href="./detail/${board.QNUM }">${board.QPHONE }</td>
+									<td><a href="./detail/${board.QNUM }">${board.QNAREA }</td>
+									<td><a href="./detail/${board.QNUM }">${board.QNTYPE }</td>
+									<td><a href="./detail/${board.QNUM }">${board.QNSIZE }</td>
+									<td><a href="./detail/${board.QNUM }">${board.QTYPE }</td>
+									<C:if test="${board.QSTATE == 0 }">
+									<td><a href="./detail/${board.QNUM }">문의 대기 중</td>
 									</C:if>
-									<C:if test="${alarm.ACHK == 0 }">
-									<td>미확인</td>
+									<C:if test="${board.QSTATE == 1 }">
+									<td><a href="./detail/${board.QNUM }">조회완료</td>
 									</C:if>
-								</tr>
 							</C:forEach>									
 						</tbody>
 					</table>
-					</C:if>
-					<C:if test="${list==null }">
-						<h2>아무런 데이터가 존재하지 않습니다.</h2>
-					</C:if>
 				</div>
 			</div>
 		</div>	
@@ -83,7 +80,6 @@
 								</a>
 							</li>
 						</C:if>
-						<C:if test="${links != null }">
 						<C:forEach items="${links }" var="link">
 							<C:choose>
 								<C:when test="${idx == link }">
@@ -94,7 +90,6 @@
 								</C:otherwise>
 							</C:choose>
 						</C:forEach>
-						</C:if>
 						<C:if test="${colCnt < maxCol }">	
 							<li>
 								<a href="${nextPg }" aria-label="Next">
@@ -106,13 +101,16 @@
 				</nav>
 				
 				<br>
-			
 			</div>
+		</C:if>
+		<C:if test="${list==null }">
+			<h3>내용이 없습니다.</h3>
+		</C:if>	
 			<div class="col-sm-2 text-right">
 				<br>
 				<a href="./add" class="btn btn-primary" role="button">쓰기</a>
 			</div> 
-		
+		</div>
 		<C:if test="${list!=null }">
 		<div class="text-center">
 			<br/>
@@ -140,14 +138,10 @@
 				<button class="btn btn-primary" type="submit">검색</button>
 			</form>
 		</div>
-		</C:if>
-		</div>
-	
+		</C:if>		
 		<!-- 게시판 끝 -->
 	
 	</div>
-
-
 </body>
 
 </html>

@@ -110,7 +110,15 @@ public class ModelDaoImpl1 implements ModelDao {
 		params.put("search_option", search_option);	
 		params.put("val", value);
 
-		List<HashMap<String, Object>> list = sqlSession.selectList("model.searchListOptionString", params);
+		List<HashMap<String, Object>> list = null;
+		
+		if(table.equalsIgnoreCase("stock")){
+			list = sqlSession.selectList("model.searchStockListOptionString", params);
+			log.debug(list);
+			return list;
+		}
+		
+		list = sqlSession.selectList("model.searchListOptionString", params);
 		
 		System.out.println(list);
 		return list;
@@ -123,9 +131,17 @@ public class ModelDaoImpl1 implements ModelDao {
 		params.put("table", table);
 		params.put("search_option", search_option);	
 		params.put("val", value);
+		
+		List<HashMap<String, Object>> list = null;
 
-		List<HashMap<String, Object>> list = sqlSession.selectList("model.searchListOptionNum", params);
+		if(table.equalsIgnoreCase("stock")){
+			list = sqlSession.selectList("model.searchStockListOptionNum", params);
+			System.out.println(list);
+			return list;
+		}
 	
+		list = sqlSession.selectList("model.searchListOptionNum", params);
+		
 		System.out.println(list);
 		return list;
 	}
@@ -585,11 +601,22 @@ public class ModelDaoImpl1 implements ModelDao {
 
 	@Override
 	public List<HashMap<String, Object>> selectType(String table, String pk) throws SQLException{
+		List<HashMap<String, Object>> types = null;
+		
+		/* 보류
+		 * if(table.equalsIgnoreCase("stock")){
+			types = sqlSession.selectList("model.selectStockStoreType");
+			System.out.println(types);
+			return types;
+		}*/
+		
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("table", table);
 		params.put("pk", pk);
 		
-		return sqlSession.selectList("model.selectAllType", params);
+		types = sqlSession.selectList("model.selectAllType", params);
+		System.out.println(types);
+		return types;
 	}
 
 	

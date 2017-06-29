@@ -26,6 +26,125 @@ public class ErpController{
 	private ModelDao modelDao;
 	private static final Logger logger = LoggerFactory.getLogger(ErpController.class);
 	
+	@RequestMapping(value={"/erp/contact/{idx}"} ,method={RequestMethod.POST,RequestMethod.GET})
+	public String contactSearch (@PathVariable int idx, Model model, HttpServletRequest req){
+		try {
+			req.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		String search_text = req.getParameter("search_text");	
+		String search_type = req.getParameter("search_type");
+		 
+		Map<String, Integer> startend = null;
+		HttpSession sess = req.getSession();
+		try {
+			if(req.getParameter("search_text") == null && req.getMethod().equals("POST") || sess.getAttribute("searText") == null && req.getMethod().equals("GET") || req.getParameter("list")!= null && req.getMethod().equals("POST")){
+				sess.setAttribute("searType", null);
+				sess.setAttribute("searText", null);
+				
+				if(!( req.getParameter("search_text") == null && req.getMethod().equals("GET") ) ){
+					idx = 1;
+				}
+				
+				System.out.println("세션: "+sess);
+				model.addAttribute("list", modelDao.board_paging(idx,"contact","QNUM"));
+				startend = modelDao.page_startEnd(idx,"contact");		
+				
+				model.addAttribute("links", modelDao.board_pagelinks(idx, "contact"));
+			
+			}else if(sess.getAttribute("searText") != null && req.getMethod().equals("GET")){
+				String sess_text = (String) sess.getAttribute("searText");
+				String sess_type = (String) sess.getAttribute("searType");
+				System.out.println("세션: "+sess);
+				
+				if(sess_type.equalsIgnoreCase("name")){
+					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"contact","QNAME","QNUM", idx));
+					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"contact","QSUB",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"contact","QNAME", idx));
+				}
+				if(sess_type.equalsIgnoreCase("cntnt")){
+					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"contact","QCNTNT","QNUM", idx));
+					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"contact","QCNTNT",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"contact","QCNTNT", idx));
+				}
+				if(sess_type.equalsIgnoreCase("type")){
+					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"contact","QTYPE","QNUM", idx));
+					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"contact","QTYPE",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"contact","QTYPE", idx));
+				}
+				//if(sess_type == "author") model.addAttribute("board", modelDao.board_search(sess_type, sess_text,"contact","Q"));
+				
+				model.addAttribute("sess_text", (String) sess.getAttribute("searText"));
+				model.addAttribute("sess_type", (String) sess.getAttribute("searType"));
+				
+			}else if(req.getParameter("search_text") != null && req.getMethod().equals("POST")) {
+				
+				idx = 1;
+				
+				System.out.println("세션: "+sess);
+				sess.setAttribute("searType", search_type);
+				sess.setAttribute("searText", search_text);	
+				
+				if(search_type.equalsIgnoreCase("name")){
+					
+					model.addAttribute("list", modelDao.board_searchPaging(search_type, search_text,"contact","QNAME", "QNUM", idx));
+					startend = modelDao.pageSearch_startEnd(search_type, search_text,"contact","QSUB",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"contact","QSUB", idx));
+				}
+				if(search_type.equalsIgnoreCase("cntnt")){
+					model.addAttribute("list", modelDao.board_searchPaging(search_type, search_text,"contact","QCNTNT", "QNUM", idx));
+					startend = modelDao.pageSearch_startEnd(search_type, search_text,"contact","QCNTNT",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"contact","QCNTNT", idx));
+				}
+				if(search_type.equalsIgnoreCase("type")){
+					model.addAttribute("list", modelDao.board_searchPaging(search_type, search_text,"contact","QTYPE", "QNUM", idx));
+					startend = modelDao.pageSearch_startEnd(search_type, search_text,"contact","QTYPE",idx);
+					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"contact","QTYPE", idx));
+				}
+				
+				//if(search_type == "author") model.addAttribute("board", modelDao.board_search(search_type, search_text,"contact","Q"));
+				
+				
+				model.addAttribute("sess_text", (String) sess.getAttribute("searText"));
+				model.addAttribute("sess_type", (String) sess.getAttribute("searType"));
+			}
+		
+			int pageNum = startend.get("pageNum");
+			int colCnt = ((idx - 1) / 5) + 1; 
+			int maxCol = ((pageNum - 1) / 5) + 1 ;
+			int nextCol = (idx-1) / 5 * 5 + 6;
+			
+			if(idx > pageNum){
+				return "error/404";
+			}
+			
+			//model.addAttribute("links", links);
+			model.addAttribute("idx", idx);
+			model.addAttribute("colCnt", colCnt);
+			model.addAttribute("maxCol", maxCol);
+
+			if(colCnt == 1) {
+				if (maxCol > 1){
+					model.addAttribute("nextPg", startend.get("nextPage"));
+				}else if(maxCol == 1){}
+			}else if(colCnt > 1) {
+				if (colCnt < maxCol){
+					model.addAttribute("prevPg", startend.get("prevPage"));
+					model.addAttribute("nextPg", startend.get("nextPage"));
+				}else if(colCnt == maxCol) {
+					model.addAttribute("prevPg", startend.get("prevPage"));
+				}	
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return "erp/contact_list";
+	}
+	
+	
 	@RequestMapping(value={"/erp/headnotice/{idx}"} ,method={RequestMethod.POST,RequestMethod.GET})
 	public String headnoticeSearch (@PathVariable int idx, Model model, HttpServletRequest req){
 		try {
@@ -57,7 +176,7 @@ public class ErpController{
 			}else if(sess.getAttribute("searText") != null && req.getMethod().equals("GET")){
 				String sess_text = (String) sess.getAttribute("searText");
 				String sess_type = (String) sess.getAttribute("searType");
-				System.out.println("쨉쨉횁횩"+sess);
+				System.out.println("세션: "+sess);
 				
 				if(sess_type.equalsIgnoreCase("sub")){
 					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"headnotice","BSUB","BNUM", idx));
@@ -150,7 +269,7 @@ public class ErpController{
 	@RequestMapping("/erp/alarm")
 	public String alarm(Model model){
 		try {
-			model.addAttribute("alist", modelDao.board_list("inform","ANUM"));
+			model.addAttribute("list", modelDao.board_list("inform","ANUM"));
 			model.addAttribute("links", modelDao.board_pagelinks("inform"));
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -178,13 +297,13 @@ public class ErpController{
 				
 			}else if(search_text != null && req.getMethod().equals("POST")){
 				if(search_type.equalsIgnoreCase("sub")){
-					model.addAttribute("alist", modelDao.board_search(search_type, search_text,"inform","ASUB","ANUM"));
+					model.addAttribute("list", modelDao.board_search(search_type, search_text,"inform","ASUB","ANUM"));
 					
 				}
 				if(search_type.equalsIgnoreCase("cntnt")){
-					model.addAttribute("alist", modelDao.board_search(search_type, search_text,"inform","ACNTNT","ANUM"));
+					model.addAttribute("list", modelDao.board_search(search_type, search_text,"inform","ACNTNT","ANUM"));
 				}
-				//if(search_type == "author") model.addAttribute("alist", modelDao.board_search(search_type, search_text,"inform","A"));
+				//if(search_type == "author") model.addAttribute("list", modelDao.board_search(search_type, search_text,"inform","A"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -216,7 +335,7 @@ public class ErpController{
 				}
 				
 				System.out.println("¸¸·á"+sess);
-				model.addAttribute("alist", modelDao.board_paging(idx,"INFORM","anum"));
+				model.addAttribute("list", modelDao.board_paging(idx,"INFORM","anum"));
 				startend = modelDao.page_startEnd(idx,"INFORM");		
 				
 				model.addAttribute("links", modelDao.board_pagelinks(idx, "INFORM"));
@@ -224,19 +343,19 @@ public class ErpController{
 			}else if(sess.getAttribute("searText") != null && req.getMethod().equals("GET")){
 				String sess_text = (String) sess.getAttribute("searText");
 				String sess_type = (String) sess.getAttribute("searType");
-				System.out.println("µµÁß"+sess);
+				System.out.println("세션 "+sess);
 				
 				if(sess_type.equalsIgnoreCase("sub")){
-					model.addAttribute("alist", modelDao.board_searchPaging(sess_type, sess_text,"inform","ASUB","ANUM", idx));
+					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"inform","ASUB","ANUM", idx));
 					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"inform","ASUB",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"INFORM","ASUB", idx));
 				}
 				if(sess_type.equalsIgnoreCase("cntnt")){
-					model.addAttribute("alist", modelDao.board_searchPaging(sess_type, sess_text,"inform","ACNTNT","ANUM", idx));
+					model.addAttribute("list", modelDao.board_searchPaging(sess_type, sess_text,"inform","ACNTNT","ANUM", idx));
 					startend = modelDao.pageSearch_startEnd(sess_type, sess_text,"inform","ACNTNT",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(sess_type,sess_text,"INFORM","ACNTNT", idx));
 				}
-				//if(sess_type == "author") model.addAttribute("alist", modelDao.board_search(sess_type, sess_text,"inform","A"));
+				//if(sess_type == "author") model.addAttribute("list", modelDao.board_search(sess_type, sess_text,"inform","A"));
 				
 				model.addAttribute("sess_text", (String) sess.getAttribute("searText"));
 				model.addAttribute("sess_type", (String) sess.getAttribute("searType"));
@@ -251,16 +370,16 @@ public class ErpController{
 				
 				if(search_type.equalsIgnoreCase("sub")){
 					
-					model.addAttribute("alist", modelDao.board_searchPaging(search_type, search_text,"inform","ASUB", "ANUM", idx));
+					model.addAttribute("list", modelDao.board_searchPaging(search_type, search_text,"inform","ASUB", "ANUM", idx));
 					startend = modelDao.pageSearch_startEnd(search_type, search_text,"inform","ASUB",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"INFORM","ASUB", idx));
 				}
 				if(search_type.equalsIgnoreCase("cntnt")){
-					model.addAttribute("alist", modelDao.board_searchPaging(search_type, search_text,"inform","ACNTNT", "ANUM", idx));
+					model.addAttribute("list", modelDao.board_searchPaging(search_type, search_text,"inform","ACNTNT", "ANUM", idx));
 					startend = modelDao.pageSearch_startEnd(search_type, search_text,"inform","ACNTNT",idx);
 					model.addAttribute("links", modelDao.boardSearch_pagelinks(search_type,search_text,"INFORM","ACNTNT", idx));
 				}
-				//if(search_type == "author") model.addAttribute("alist", modelDao.board_search(search_type, search_text,"inform","A"));
+				//if(search_type == "author") model.addAttribute("list", modelDao.board_search(search_type, search_text,"inform","A"));
 				
 				
 				model.addAttribute("sess_text", (String) sess.getAttribute("searText"));
@@ -413,7 +532,7 @@ public class ErpController{
 		}
 	
 		try {
-			model.addAttribute("stores", modelDao.selectList("franchise","FNUM"));
+			model.addAttribute("stores", modelDao.selectList("franchise", "fnum"));
 			model.addAttribute("type", modelDao.selectType("ware","wtype"));
 			
 			if(wtype == null && wname == null && fnum == null || req.getMethod().equals("GET")){
@@ -552,7 +671,32 @@ public class ErpController{
 		return "/erp/system_main";
 	}
 	
-	
+	@RequestMapping(value="/erp/menu/list",method={RequestMethod.GET,RequestMethod.POST})
+	public String menuList (Model model, HttpServletRequest req){
+		try {
+			req.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		String menuType = req.getParameter("menu_type");
+		String menuName = req.getParameter("menu_name");
+		
+		try {
+			model.addAttribute("type", modelDao.selectType("menu","menu_type"));
+		
+			if(menuType == null && menuName == null || req.getMethod().equals("GET")){
+					model.addAttribute("list", modelDao.selectList("menu","menu_num"));
+			}else if(menuType!=null && req.getMethod().equals("POST")){
+					model.addAttribute("list", modelDao.searchListString("menu","menu_num","menu_type",menuType));
+			}else if (menuName!=null && req.getMethod().equals("POST")) {
+				System.out.println("menuName");
+					model.addAttribute("list", modelDao.searchListString("menu","menu_num","menu_name",menuName));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "erp/menu_list";
+	}	
 	
 	@RequestMapping(value="/erp/ware/list",method={RequestMethod.GET,RequestMethod.POST})
 	public String wareList (Model model, HttpServletRequest req){
