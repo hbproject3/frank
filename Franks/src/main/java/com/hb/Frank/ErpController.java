@@ -552,6 +552,41 @@ public class ErpController{
 		return "erp/stock_list";
 	}	
 	
+	@RequestMapping(value="/erp/order/list",method={RequestMethod.GET,RequestMethod.POST})
+	public String orderList (Model model, HttpServletRequest req){
+		try {
+			req.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		String wtype = req.getParameter("wtype");
+		String wname = req.getParameter("wname");
+		Integer fnum = null;
+		if(req.getParameter("fnum") != null){
+			fnum = Integer.parseInt(req.getParameter("fnum"));
+		}
+		
+		try {
+			model.addAttribute("stores", modelDao.selectList("franchise", "fnum"));
+			model.addAttribute("type", modelDao.selectType("ware","wtype"));
+			
+			if(wtype == null && wname == null && fnum == null || req.getMethod().equals("GET")){
+				model.addAttribute("list", modelDao.selectList("stock", null));
+			}else if(wtype!=null && req.getMethod().equals("POST")){
+				model.addAttribute("list", modelDao.searchListString("stock","wnum","wtype",wtype));
+			}else if (wname!=null && req.getMethod().equals("POST")) {
+				System.out.println("wname");
+				model.addAttribute("list", modelDao.searchListString("stock","wnum","wname",wname));
+			}else if (fnum!=null && req.getMethod().equals("POST")) {
+				System.out.println("wname");
+				model.addAttribute("list", modelDao.searchListNum("stock","wnum","fnum",fnum));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "erp/stock_list";
+	}	
+	
 	
 //store
 	@RequestMapping(value="/erp/store/list",method={RequestMethod.GET,RequestMethod.POST})

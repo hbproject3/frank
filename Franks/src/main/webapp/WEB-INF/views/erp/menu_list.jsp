@@ -34,9 +34,9 @@
 				<form method="post" class="form-inline">
 					<div class="form-group col-sm-offset-1 col-sm-5">
 						<label for="menu_type">메뉴종류</label>
-						<c:if test="${ list != null}">
+						<c:if test="${list != null}">
 						<select name="menu_type" class="form-control" id="menu_type">
-							<c:forEach items="${ type}" var="menu">
+							<c:forEach items="${type}" var="menu">
 								<option value="${menu.MENU_TYPE }">${menu.MENU_TYPE }</option>
 							</c:forEach>	
 						</select>	
