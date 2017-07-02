@@ -37,7 +37,15 @@
 						<c:if test="${ list != null}">
 						<select name="wtype" class="form-control" id="goods_type">
 							<c:forEach items="${ type}" var="ware">
-								<option value="${ware.WTYPE }">${ware.WTYPE }</option>
+								<c:if test='${(ware.WTYPE).equals("0") }'>
+								<option value="${ware.WTYPE }">메인 메뉴 재료</option>
+								</c:if>
+								<c:if test='${(ware.WTYPE).equals("1") }'>
+								<option value="${ware.WTYPE }">비품</option>
+								</c:if>
+								<c:if test='${(ware.WTYPE).equals("2") }'>
+								<option value="${ware.WTYPE }">사이드메뉴 재료</option>
+								</c:if>
 							</c:forEach>	
 						</select>	
 						</c:if>
@@ -66,8 +74,16 @@
 			<tr>
 				<td><a href="./detail/${ware.WNUM}">${ware.WNUM }</a></td>
 				<td><a href="./detail/${ware.WNUM}">${ware.WNAME }</a></td>
-				<td><a href="./detail/${ware.WNUM}">${ware.WTYPE }</a></td>
-				<td class="">
+				<c:if test='${(ware.WTYPE).equals("0") }'>
+				<td><a href="./detail/${ware.WNUM}">메인 메뉴 재료</a></td>
+				</c:if>
+				<c:if test='${(ware.WTYPE).equals("1") }'>
+				<td><a href="./detail/${ware.WNUM}">비품</a></td>
+				</c:if>
+				<c:if test='${(ware.WTYPE).equals("2") }'>
+				<td><a href="./detail/${ware.WNUM}">사이드 메뉴 재료</a></td>
+				</c:if>
+				<td class="text-center">
 				<a href="./edit/${ware.WNUM}" class="btn btn-default" role="button">수정</a>
 				<a href="./delete/${ware.WNUM}" class="btn btn-default" role="button">삭제</a>
 				</td>

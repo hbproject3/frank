@@ -1,5 +1,7 @@
 package com.hb.Frank.model.dao;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +35,7 @@ public class ModelDaoImpl1 implements ModelDao {
 	}
 
 	@Override
-	public List<HashMap<String, Object>> ad_storeRanks() throws SQLException {
+	public List<Map<String, Object>> ad_storeRanks() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -103,151 +105,149 @@ public class ModelDaoImpl1 implements ModelDao {
 	}
 
 	@Override
-	public List<HashMap<String, Object>> searchListString(String table, String pk, String search_option, String value) throws SQLException {
-		HashMap<String,Object> params = new HashMap<String,Object>();
-		params.put("pk", pk);
-		params.put("table", table);
-		params.put("search_option", search_option);	
-		params.put("val", value);
-
-		List<HashMap<String, Object>> list = null;
+	public List<Map<String, Object>> searchListSearch(Map<String, Object> bean) throws SQLException {
+		List<Map<String, Object>> list = null;
+		String table = (String) bean.get("table");
 		
-		if(table.equalsIgnoreCase("stock")){
-			list = sqlSession.selectList("model.searchStockListOptionString", params);
-			log.debug(list);
-			return list;
-		}
-		
-		list = sqlSession.selectList("model.searchListOptionString", params);
-		
-		System.out.println(list);
-		return list;
-	}
-
-	@Override
-	public List<HashMap<String, Object>> searchListNum(String table, String pk, String search_option, Integer value) throws SQLException {
-		HashMap<String,Object> params = new HashMap<String,Object>();
-		params.put("pk", pk);
-		params.put("table", table);
-		params.put("search_option", search_option);	
-		params.put("val", value);
-		
-		List<HashMap<String, Object>> list = null;
-
-		if(table.equalsIgnoreCase("stock")){
-			list = sqlSession.selectList("model.searchStockListOptionNum", params);
+		if(bean.get("val") instanceof Integer){
+			if(table.equalsIgnoreCase("stock")){
+				list = sqlSession.selectList("model.searchStockListOptionNum", bean);
+				System.out.println(list);
+				return list;
+			}if(table.equalsIgnoreCase("Orders")){
+				list = sqlSession.selectList("model.searchOrdersListOptionNum", bean);
+				System.out.println(list);
+				return list;
+			}
+			list = sqlSession.selectList("model.searchListOptionNum", bean);
 			System.out.println(list);
 			return list;
+		}else{
+			
+			if(table.equalsIgnoreCase("stock")){
+				list = sqlSession.selectList("model.searchStockListOptionString", bean);
+				System.out.println(list);
+				return list;
+			}else if(table.equalsIgnoreCase("orders")){
+				list = sqlSession.selectList("model.searchOrdersListOptionString", bean);
+				System.out.println(list);
+				return list;
+			}
+			
+			list = sqlSession.selectList("model.searchListOptionString", bean);
+			
+			System.out.println(list);
+			return list;
+			
 		}
-	
-		list = sqlSession.selectList("model.searchListOptionNum", params);
-		
-		System.out.println(list);
-		return list;
 	}
 
-	
 	@Override
-	public List<HashMap<String, Object>> selectList(String table, String pk) throws SQLException {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("table", table);
-		params.put("pk", pk);
+	public List<Map<String, Object>> selectList(Map<String, Object> bean) throws SQLException {
+		List<Map<String, Object>> list = null;
+		String table = (String) bean.get("table");
 		
-		List<HashMap<String, Object>> list = null;
 		if(table.equalsIgnoreCase("stock")){
 			list = sqlSession.selectList("model.selectAllStock");
 			System.out.println(list);
 			return list;
-		}
-		list = sqlSession.selectList("model.selectAll", params);
+		}else if(table.equalsIgnoreCase("orders")){
+			list = sqlSession.selectList("model.selectAllOrders");
+			System.out.println(list);
+			return list;
+		}	
+		list = sqlSession.selectList("model.selectAll", bean);
 		System.out.println(list);
 		return list;
+
 	}
 	
 	@Override
-	public List<HashMap<String, Object>> board_list(String table, String pk) throws SQLException {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("table", table);
-		params.put("pk", pk);
-		List<HashMap<String, Object>> list = sqlSession.selectList("model.boardList", params);
+	public List<Map<String, Object>> board_list(Map<String, Object> bean) throws SQLException {
+
+		List<Map<String, Object>> list = sqlSession.selectList("model.boardList", bean);
 		System.out.println(list);
 		return list;
 	}
 
-	@Override
-	public List<Integer> board_pagelinks(String table) throws SQLException {
-//		PagingVo page= sqlSession.selectOne("model.alarmRow");
-//		int rownum = page.getRows();
-		
-		int rownum = sqlSession.selectOne("model.boardCount", table);
-		System.out.println(rownum);
-		
-		int pagenum = 0;
-		if(rownum > 10){
-			pagenum = rownum / 10;
-			if( rownum % (10 * pagenum) != 0){
-				pagenum ++;
-			}
-		}
-		
-		List<Integer> pages = new ArrayList<Integer>();
-		System.out.println(pagenum);
-		for (int i = 1; i <= pagenum; i++) {
-			pages.add(i);
-		}
-		
-		return pages;
-	}
 	
 	@Override
-	public List<Integer> board_pagelinks(int idx, String table) throws SQLException {
-		int colCnt = ((idx-1)/ 5 )+1;                       
-		int startPage  = ( ( (idx-1) / 5) * 5 ) + 1;
-		int maxRow = sqlSession.selectOne("model.boardCount", table);
-		int endPage = ( ( (idx-1) / 5) * 5 ) + 5; 
+	public List<Integer> board_pagelinks(Map<String, Object> bean) throws SQLException {
+			String table = (String) bean.get("table");
 		
-		System.out.println("mr:"+ maxRow);
-		int pageNum = 0;
-		
-		if(maxRow > 10){
-			pageNum = maxRow / 10;
-			if( maxRow % (10 * pageNum) != 0){
-				pageNum ++;
+		if(bean.get("idx")!=null){
+			int idx=(int) bean.get("idx");
+			
+			int colCnt = ((idx-1)/ 5 )+1;                       
+			int startPage  = ( ( (idx-1) / 5) * 5 ) + 1;
+			int maxRow = sqlSession.selectOne("model.boardCount", table);
+			int endPage = ( ( (idx-1) / 5) * 5 ) + 5; 
+			
+			System.out.println("mr:"+ maxRow);
+			int pageNum = 0;
+			
+			if(maxRow > 10){
+				pageNum = maxRow / 10;
+				if( maxRow % (10 * pageNum) != 0){
+					pageNum ++;
+				}
+			}else{
+				pageNum = 1;
 			}
+			
+			int maxCol = ((pageNum - 1)/ 5 ) + 1 ;
+			
+			System.out.println("mc"+ maxCol);
+			System.out.println("p"+ pageNum);
+			System.out.println("sp"+ startPage);
+			int subtr = pageNum - idx;
+			System.out.println("pd" + (subtr));
+			
+			// && (pageNum - idx) < 4
+			if(colCnt == maxCol){
+				endPage = ( ( (idx-1) / 5) * 5 ) + ( pageNum - startPage + 1);
+			}
+			
+			List<Integer> pages = new ArrayList<Integer>();
+			System.out.println("colCnt: "+colCnt+", startPage: "+startPage+", endPage: "+endPage);
+			for (int i = startPage; i <= endPage; i++) {
+				pages.add(i);
+			}
+			return pages;
 		}else{
-			pageNum = 1;
+			int rownum = sqlSession.selectOne("model.boardCount", table);
+			System.out.println(rownum);
+			
+			int pagenum = 0;
+			if(rownum > 10){
+				pagenum = rownum / 10;
+				if( rownum % (10 * pagenum) != 0){
+					pagenum ++;
+				}
+			}
+			
+			List<Integer> pages = new ArrayList<Integer>();
+			System.out.println(pagenum);
+			for (int i = 1; i <= pagenum; i++) {
+				pages.add(i);
+			}
+			
+			return pages;
 		}
 		
-		int maxCol = ((pageNum - 1)/ 5 ) + 1 ;
-		
-		System.out.println("mc"+ maxCol);
-		System.out.println("p"+ pageNum);
-		System.out.println("sp"+ startPage);
-		int subtr = pageNum - idx;
-		System.out.println("pd" + (subtr));
-		
-		// && (pageNum - idx) < 4
-		if(colCnt == maxCol){
-			endPage = ( ( (idx-1) / 5) * 5 ) + ( pageNum - startPage + 1);
-		}
-		
-		List<Integer> pages = new ArrayList<Integer>();
-		System.out.println("colCnt: "+colCnt+", startPage: "+startPage+", endPage: "+endPage);
-		for (int i = startPage; i <= endPage; i++) {
-			pages.add(i);
-		}
-		return pages;
 	}
 
 	@Override
-	public List<HashMap<String, Object>> board_paging(int page, String table, String pk) throws SQLException{
+	public List<Map<String, Object>> board_paging(Map<String, Object> bean) throws SQLException{
 		HashMap<String, Object> params = new HashMap<String, Object>();
 
-		int maxRow = sqlSession.selectOne("model.boardCount", table);
+		int page = (int) bean.get("idx");
+		
+		int maxRow = sqlSession.selectOne("model.boardCount", (String) bean.get("table"));
 		int row_max = maxRow - ((--page) * 10 );
 		int row_min = row_max - 9;
 		
-		List<HashMap<String, Object>> list = null;
+		List<Map<String, Object>> list = null;
 		
 		if(row_min < 0){
 			row_min = 0;
@@ -255,23 +255,22 @@ public class ModelDaoImpl1 implements ModelDao {
 		
 		System.out.println(row_min);
 		System.out.println(row_max);
-		
-		params.put("table", table);
-		params.put("min", row_min);
-		params.put("max", row_max);
-		params.put("pk", pk);
-		
-		
+	
+		bean.put("min", row_min);
+		bean.put("max", row_max);
+
 		if(maxRow>0){
-			list = sqlSession.selectList("model.boardPaging", params);
+			list = sqlSession.selectList("model.boardPaging", bean);
 		}
 		System.out.println(list);
 		return list;
 	}
 
 	@Override
-	public Map<String, Integer> page_startEnd(int idx, String table) {
-		int maxRow = sqlSession.selectOne("model.boardCount", table);
+	public Map<String, Integer> page_startEnd(Map<String, Object> bean) {
+		int idx=(int) bean.get("idx");
+		
+		int maxRow = sqlSession.selectOne("model.boardCount", (String)bean.get("table"));
 		int pageNum = 0;
 
 		if(maxRow > 10){
@@ -282,7 +281,7 @@ public class ModelDaoImpl1 implements ModelDao {
 		}else{
 			pageNum = 1;
 		}
-		
+				
 		Map<String, Integer> startEnd = new HashMap<String, Integer>();
 		startEnd.put("pageNum", pageNum);
 		int prevPage = (idx-1) / 5 * 5 ;
@@ -294,12 +293,7 @@ public class ModelDaoImpl1 implements ModelDao {
 	}
 
 	@Override
-	public Map<String, Integer> pageSearch_startEnd(String search_type, String search_text, String table, String schema, int idx) throws SQLException {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("type", search_type);
-		params.put("text", search_text);
-		params.put("table", table);
-		params.put("schema", schema);
+	public Map<String, Integer> pageSearch_startEnd(Map<String,Object> params) throws SQLException {
 
 		int maxRow = sqlSession.selectOne("model.boardSearchCount", params);
 		int pageNum = 0;
@@ -315,6 +309,8 @@ public class ModelDaoImpl1 implements ModelDao {
 			pageNum = 1;
 		}
 		
+		int idx = (int) params.get("idx");
+		
 		System.out.println("pageNum: " + pageNum);
 		
 		Map<String, Integer> startEnd = new HashMap<String, Integer>();
@@ -328,13 +324,10 @@ public class ModelDaoImpl1 implements ModelDao {
 	}
 
 	@Override
-	public List<HashMap<String, Object>> board_search(String search_type, String search_text, String table, String schema, String pk) throws SQLException{
-		List<HashMap<String, Object>> list = null;
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("text", search_text);
-		params.put("table", table);
-		params.put("schema", schema);
-		params.put("pk", pk);
+	public List<Map<String, Object>> board_search(Map<String, Object> params) throws SQLException{
+		List<Map<String, Object>> list = null;
+		
+		String search_type = (String) params.get("search_type");
 		
 		if(search_type.equalsIgnoreCase("sub")){
 			list = sqlSession.selectList("model.boardSearch", params);
@@ -353,26 +346,16 @@ public class ModelDaoImpl1 implements ModelDao {
 	}
 	
 	
-	public List<HashMap<String, Object>> board_date_search(String search_type, String search_text, String table, String first, String last) throws SQLException{
+	public List<Map<String, Object>> board_date_search(String search_type, String search_text, String table, String first, String last) throws SQLException{
 		return null;
 		
 	}
 
-	@Override
-	public List<HashMap<String, Object>> board_search(String search_type, String search_text, String table)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
-	public List<HashMap<String, Object>> board_searchPaging(String search_type, String search_text, String table, String schema, String pk, int idx) throws SQLException {
-		List<HashMap<String, Object>> list = null;
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("text", search_text);
-		params.put("table", table);
-		params.put("schema", schema);
-		params.put("pk", pk);
+	public List<Map<String, Object>> board_searchPaging(Map<String, Object> params) throws SQLException {
+		List<Map<String, Object>> list = null;
 		
 		// if(search_type.equals("sub")){
 		// 	list = sqlSession.selectList("model.boardSearch", params);
@@ -387,7 +370,7 @@ public class ModelDaoImpl1 implements ModelDao {
 		}*/
 		
 		
-		
+		int idx= (int) params.get("idx");
 		int maxRow = sqlSession.selectOne("model.boardSearchCount", params);
 		
 		System.out.println("pagingmaxRow"+ maxRow);
@@ -411,14 +394,13 @@ public class ModelDaoImpl1 implements ModelDao {
 	}
 
 	@Override
-	public List<Object> boardSearch_pagelinks(String search_type, String search_text, String table, String schema, int idx) throws SQLException {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("type", search_type);
-		params.put("text", search_text);
-		params.put("table", table);
-		params.put("schema", schema);
+	public List<Object> boardSearch_pagelinks(Map<String, Object> params) throws SQLException {
+
 
 		int maxRow = sqlSession.selectOne("model.boardSearchCount", params);
+		
+		int idx = (int) params.get("idx");
+		
 		int colCnt = ((idx-1)/ 5 )+1;                       
 		int startPage  = ( ( (idx-1) / 5) * 5 ) + 1;
 		int endPage = ( ( (idx-1) / 5) * 5 ) + 5; 
@@ -464,59 +446,24 @@ public class ModelDaoImpl1 implements ModelDao {
 
 	
 
-	@Override
-	public void alarm_addOne(HashMap<String, Object> bean) throws SQLException {
-		sqlSession.insert("model.alarmAdd", bean);
-	}
+	
 
 	@Override
-	public void alarm_cnt(int idx, String table, String pk, String cnt) throws SQLException {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("table", table);
-		params.put("pk", pk);
-		params.put("cnt", cnt);
-		params.put("idx", idx);
-		
-		HashMap<String, Object> result = sqlSession.selectOne("model.boardViewCnt", params);
-		System.out.println(result);
-		
-		// ����! ������ �빮�� warning: you must type the names of parameters in Uppercase
-		int nowcnt = Integer.parseInt(String.valueOf(result.get(pk.toUpperCase())));
-		int anum = Integer.parseInt(String.valueOf(result.get(cnt.toUpperCase())));
-
-		System.out.println("nowcnt: " + nowcnt + " anum: " + anum);
-		
-		if(nowcnt < 1){
-			sqlSession.update("model.alarmUpCnt", anum);
-		}
-	}
-
-	@Override
-	public Map<String, Object> board_detail(int idx, String table, String pk) throws SQLException {
-		Map<String, Object> params = new HashMap<String, Object>();
-		
-		params.put("idx", idx);
-		params.put("table", table);
-		params.put("pk", pk);
-		Map<String, Object> list = sqlSession.selectOne("model.boardDetailOne", params);
+	public Map<String, Object> board_detail(Map<String, Object> bean) throws SQLException {
+		Map<String, Object> list = sqlSession.selectOne("model.boardDetailOne", bean);
 		System.out.println(list);
 		return list;
 	}
 	
 	@Override
-	public Integer board_nowPage(int idx, String table, String pk) {
+	public Integer board_nowPage(Map<String, Object> bean) {
      // int maxRow = sqlSession.selectOne("model.boardCount", table);
-		
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("table", table);
-		params.put("idx", idx);
-		params.put("pk", pk);
-		
-		int pageIdx = sqlSession.selectOne("model.boardPageCount", params);
+				
+		int pageIdx = sqlSession.selectOne("model.boardPageCount", bean);
 		
 		System.out.println("pageIDx: "+pageIdx);
 		
-		int maxRow = sqlSession.selectOne("model.boardCount", table);
+		int maxRow = sqlSession.selectOne("model.boardCount", (String)bean.get("table") );
 		
 		int nowRow = (maxRow - pageIdx) + 1;
 		int pageNum = 0;
@@ -532,76 +479,113 @@ public class ModelDaoImpl1 implements ModelDao {
 		
 		return pageNum;
 	}
-
+	
 	@Override
-	public void alarm_edit(HashMap<String, Object> bean) throws SQLException{
-		sqlSession.update("model.alarmEdit", bean);
-	}
-
-	@Override
-	public void board_deleteNum(int idx, String table, String pk) throws SQLException {
-		HashMap<String, Object> bean = new HashMap<String, Object>();
-		bean.put("idx", idx);
-		bean.put("table", table);
-		bean.put("pk", pk);
-		//int primaryNumKey = sqlSession.selectOne("model.boardViewPKnum", bean);
-		//bean.put("num", primaryNumKey);
-		sqlSession.delete("model.boardDeleteOne_Num",bean);
-	}
-
-	@Override
-	public void board_deleteString(String idx, String table, String pk) throws SQLException {
-		HashMap<String, Object> bean = new HashMap<String, Object>();
-		bean.put("idx", idx);
-		bean.put("table", table);
-		bean.put("pk", pk);
-		//String primaryStringKey = sqlSession.selectOne("model.boardViewPKstring", bean);
-		//bean.put("string", primaryStringKey);
-		sqlSession.delete("model.boardDetailOne_String",bean);
-	}
-
-	@Override
-	public void store_addOne(HashMap<String, Object> bean) throws SQLException {
-		sqlSession.insert("model.so_storeAdd", bean);
+	public void addOne(Map<String, Object> bean) throws SQLException {
+		String table =(String)bean.get("table");
 		
-	}
-
-	@Override
-	public void store_edit(HashMap<String, Object> bean) throws SQLException {
-		sqlSession.update("model.so_storeEdit", bean);
-		
-	}
-
-	@Override
-	public void board_cnt(int idx, String table, String pk, String cnt) throws SQLException {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("table", table);
-		params.put("pk", pk);
-		params.put("cnt", cnt);
-		params.put("idx", idx);
-		
-		
-		HashMap<String, Object> result = sqlSession.selectOne("model.boardViewCnt", params);
-		System.out.println(result);
-		
-		// ����! ������ �빮�� warning: you must type the names of parameters in Uppercase
-		int pkv = Integer.parseInt(String.valueOf(result.get(pk.toUpperCase())));
-		int cntv = Integer.parseInt(String.valueOf(result.get(cnt.toUpperCase())));
-
-		System.out.println(pk+": " + pkv +" " + cnt+ ": " + cntv);
-		
-		int nowcnt = cntv + 1;
-
-
-		if(nowcnt > cntv){
-			params.put("nowcnt", nowcnt);
-			sqlSession.update("model.boardUpCnt", params);
+		if(table.equalsIgnoreCase("inform")){
+			sqlSession.insert("model.alarmAdd", bean);
+		}else if(table.equalsIgnoreCase("franchise")){
+			sqlSession.insert("model.so_storeAdd", bean);
+		}else if(table.equalsIgnoreCase("freeboard")){
+			sqlSession.insert("model.freeboardAdd", bean);
+		}else if(table.equalsIgnoreCase("contact")){
+			sqlSession.insert("model.contactAdd", bean);
+		}else if(table.equalsIgnoreCase("sales")){
+			sqlSession.insert("model.salesAdd", bean);
+		}else if(table.equalsIgnoreCase("freeboard")){
+			sqlSession.insert("model.freeboardAdd", bean);
+		}else if(table.equalsIgnoreCase("menu")){
+			sqlSession.insert("model.menuAdd", bean);
+		}else if(table.equalsIgnoreCase("stock")){
+			sqlSession.insert("model.stockAdd", bean);
+		}else if(table.equalsIgnoreCase("orders")){
+			sqlSession.insert("model.orderAdd", bean);
+		}else if(table.equalsIgnoreCase("ware")){
+			sqlSession.insert("model.wareAdd", bean);
 		}
 	}
 
 	@Override
-	public List<HashMap<String, Object>> selectType(String table, String pk) throws SQLException{
-		List<HashMap<String, Object>> types = null;
+	public void editOne(Map<String, Object> bean) throws SQLException {
+		String table =(String)bean.get("table");
+		
+		if(table.equalsIgnoreCase("inform")){
+			sqlSession.update("model.alarmEdit", bean);
+		}else if(table.equalsIgnoreCase("franchise")){
+			sqlSession.update("model.so_storeEdit", bean);
+		}else if(table.equalsIgnoreCase("freeboard")){
+			sqlSession.update("model.freeboardEdit", bean);
+		}else if(table.equalsIgnoreCase("contact")){
+			sqlSession.update("model.contactEdit", bean);
+		}else if(table.equalsIgnoreCase("sales")){
+			sqlSession.update("model.salesEdit", bean);
+		}else if(table.equalsIgnoreCase("freeboard")){
+			sqlSession.update("model.freeboardEdit", bean);
+		}else if(table.equalsIgnoreCase("menu")){
+			sqlSession.update("model.menuEdit", bean);
+		}else if(table.equalsIgnoreCase("stock")){
+			sqlSession.update("model.stockEdit", bean);
+		}else if(table.equalsIgnoreCase("orders")){
+			sqlSession.update("model.orderEdit", bean);
+		}else if(table.equalsIgnoreCase("ware")){
+			sqlSession.update("model.wareEdit", bean);
+		}
+	}
+	
+	@Override
+	public void deleteOne(Map<String, Object> bean) throws SQLException {		
+		if( bean.get("idx") instanceof Integer ){
+			sqlSession.delete("model.DeleteOne_Num",bean);
+		}else{
+			sqlSession.delete("model.DeleteOne_String",bean);
+		}
+	}
+
+	
+	
+	@Override
+	public void board_cnt(Map<String, Object> bean) throws SQLException {	
+		HashMap<String, Object> result = sqlSession.selectOne("model.boardViewCnt", bean);
+		System.out.println(result);
+		
+		String pk = ((String)bean.get("pk")).toUpperCase();
+		String cnt = ((String)bean.get("cnt")).toUpperCase();
+		
+		if(( (String)bean.get("table")).equalsIgnoreCase("inform")){
+			//alarm board
+		
+			// ����! ������ �빮�� warning: you must type the names of parameters in Uppercase
+			int nowcnt = Integer.parseInt(String.valueOf(result.get(pk)));
+			int anum = Integer.parseInt(String.valueOf(result.get(cnt)));
+
+			System.out.println("nowcnt: " + nowcnt + " anum: " + anum);
+			
+			if(nowcnt < 1){
+				sqlSession.update("model.alarmUpCnt", anum);
+			}
+		
+		}else{
+		
+			// ����! ������ �빮�� warning: you must type the names of parameters in Uppercase
+			int pkv = Integer.parseInt(String.valueOf(result.get(pk)));
+			int cntv = Integer.parseInt(String.valueOf(result.get(cnt)));
+	
+			System.out.println(pk+": " + pkv +" " + cnt+ ": " + cntv);
+			
+			int nowcnt = cntv + 1;
+	
+			if(nowcnt > cntv){
+				bean.put("nowcnt", nowcnt);
+				sqlSession.update("model.boardUpCnt", bean);
+			}
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectType(Map<String, Object> bean) throws SQLException{
+		List<Map<String, Object>> types = null;
 		
 		/* 보류
 		 * if(table.equalsIgnoreCase("stock")){
@@ -610,14 +594,23 @@ public class ModelDaoImpl1 implements ModelDao {
 			return types;
 		}*/
 		
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("table", table);
-		params.put("pk", pk);
-		
-		types = sqlSession.selectList("model.selectAllType", params);
-		System.out.println(types);
-		return types;
+		String table = (String) bean.get("table");
+
+
+		if(table.equalsIgnoreCase("stock")){
+			types = sqlSession.selectList("model.selectAllStockStoreType");
+			System.out.println(types);
+			return types;
+		}else{
+			types = sqlSession.selectList("model.selectAllType", bean);
+			System.out.println(types);
+			return types;
+		}
 	}
+
+
+
+
 
 	
 

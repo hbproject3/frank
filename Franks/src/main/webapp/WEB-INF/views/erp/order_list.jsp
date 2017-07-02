@@ -27,80 +27,98 @@
 	<div class="col-lg-9 section text-center">
 		<div class="page-header text-center">
 	
-			<h3>재고 목록</h3>
-			<a href="../../erp/store/list">재고목록</a>
+			<h3>주문 목록</h3>
+			<a href="../../erp/store/list">주문목록</a>
 		</div>
+
 		<div class="well">
 			<c:if test="${ list != null}">
 			<div class="row">
 				<form method="post" class="form-inline">
 					<div class="form-group col-sm-offset-1 col-sm-5">	
-						<label for="wtype">재고종류</label>
-						<select name="wtype" class="form-control" id="goods_type">
+						<label for="wtype">주문 자재 분류 </label>
+						<select name="wtype" class="form-control" id="wtype">
 							<c:forEach items="${ type}" var="ware">
-								<option value="${ware.WTYPE }">${ware.WTYPE }</option>
+								<c:if test='${(ware.WTYPE).equals("0") }'>
+								<option value="${ware.WTYPE }">메인 메뉴 재료</option>
+								</c:if>
+								<c:if test='${(ware.WTYPE).equals("1") }'>
+								<option value="${ware.WTYPE }">비품</option>
+								</c:if>
+								<c:if test='${(ware.WTYPE).equals("2") }'>
+								<option value="${ware.WTYPE }">사이드메뉴 재료</option>
+								</c:if>
 							</c:forEach>	
 						</select>	
-						<button class="btn btn-default" type="submit">재고이름 검색</button>
+						<button class="btn btn-default" type="submit">검색</button>
 					</div>
 				</form>
 				<form method="post" class="form-inline">
 					<div class="form-group text-left col-sm-5col-sm-offset-1">
-						<label for="wname">물건이름</label>
+						<label for="wname">주문한 상품명</label>
 							<input type="text" class="form-control" name="wname" id="wname" placeholder="">
-						<button class="btn btn-default" type="submit">물건검색</button>
+						<button class="btn btn-default" type="submit">검색</button>
 					</div>
 				</form>
 				<form method="post" class="form-inline">
 					<div class="form-group text-left">
-						<label for="fnum">점포이름</label>
-						<select name="fnum" class="form-control" id="goods_type">
+						<label for="fnum">주문한 상점</label>
+						<select name="fnum" class="form-control" id="fnum">
 							<c:forEach items="${ stores}" var="store">
 								<option value="${store.FNUM }">${store.FNAME }</option>
 							</c:forEach>	
 						</select>	
-						<button class="btn btn-default" type="submit">점포검색</button>						
+						<button class="btn btn-default" type="submit">검색</button>						
 					</div>
 				</form>
 			</div>
 			</c:if>
 			<c:if test="${ list==null}">
-			<h3>재고가 없습니다.</h3>
+			<h3>주문가 없습니다.</h3>
 			</c:if>
 		</div>
 		<c:if test="${ list!=null}">
+		<div class="table-responsive">
 		<table class="table table-bordered">
 			<tr class="info">
-				<th>가맹점번호</th>
-				<th>물건이름</th>
-				<th>현재 재고 수</th>
-				<th>들어온 재고 수</th>
-				<th>나간 재고 수</th>
-				<th>업데이트 날짜</th>
-				<th>종류</th>
+				<th>주문번호</th>
+				<th>주문한 물건 이름</th>
+				<th>주문량</th>
+				<th>주문 유형</th>
+				<th>주문한 날짜</th>
+				<th>주문품이 도착한 날짜</th>
+				<th>주문받은 상점</th>
+				<th>주문한 상점</th>
 				<th>기능</th>
 			</tr>
-			<c:forEach items="${ list}" var="stock">
+			<c:forEach items="${ list}" var="order">
 			<tr>
-				<td><a href="./detail/${stock.WNUM}">${stock.FNUM }</a></td>
-				<td><a href="./detail/${stock.WNUM}">${stock.WNAME }</a></td>
-				<td><a href="./detail/${stock.WNUM}">${stock.NOWSTOCK }</a></td>
-				<td><a href="./detail/${stock.WNUM}">${stock.INSTOCK }</a></td>
-				<td><a href="./detail/${stock.WNUM}">${stock.OUTSTOCK }</a></td>
-				<td><a href="./detail/${stock.WNUM}"><fmt:formatDate value="${stock.UDATE }" pattern="yyyy.MM.dd"/></a></td>
-				<td><a href="./detail/${stock.WNUM}">${stock.WTYPE }</a></td>
-				<td class="">
-				<a href="./edit/${stock.WNUM}" class="btn btn-default" role="button">수정</a>
-				<a href="./delete/${stock.WNUM}" class="btn btn-default" role="button">삭제</a>
+				<td>${order.ONUM }</td>
+				<td>${order.WNAME }</td>
+				<td>${order.OCOUNT }</td>
+				<c:if test='${order.OTYPE==1 }'>
+				<td>보통 주문</td>
+				</c:if>
+				<c:if test='${order.OTYPE==2 }'>
+				<td>빠른 주문</td>
+				</c:if>
+				<td><fmt:formatDate value="${order.OSDATE }" pattern="yyyy.MM.dd"/></td>
+				<td><fmt:formatDate value="${order.OEDATE }" pattern="yyyy.MM.dd"/></td>
+				<td>${order.OSSTORENAME }</td>
+				<td>${order.ORSTORENAME }</td>
+				<td class="text-center">
+				<a href="./edit/${order.WNUM}" class="btn btn-default" role="button">수정</a>
+				<a href="./delete/${order.WNUM}" class="btn btn-default" role="button">삭제</a>
 				</td>
 			</tr>
 			</c:forEach>
 			
 
 		</table>
+		</div>
 		</c:if>
 		<c:if test="${ list==null}">
-		<h3>재고가 없습니다.</h3>
+		<h3>주문이 없습니다.</h3>
 		</c:if>
 		<div class="row">
 			<div class="col-sm-4 col-sm-offset-8">

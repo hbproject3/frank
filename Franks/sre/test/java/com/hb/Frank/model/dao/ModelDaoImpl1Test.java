@@ -46,7 +46,14 @@ public class ModelDaoImpl1Test {
 //		assertNotNull((dao.so_storeListFname("�˰�")));
         //assertTrue((dao.board_list("inform")).size()>0);
         //assertTrue(dao.board_detail(43, "inform").size()>0);
-		assertTrue(dao.searchListString("stock","wnum","wtype","조리기구").size()>0);
+		
+		HashMap<String, Object> bean = new HashMap<String, Object>(); 
+		bean.put("table", "stock");
+		bean.put("pk", "wnum");
+		bean.put("search_option", "wtype");
+		bean.put("val", 0);
+		
+		assertTrue(dao.searchListSearch(bean).size()>0);
 
 		//assertTrue(dao.searchListString("FRANCHISE", "FNUM", "FADDRESS", "부산").size()>0);
 //		int row = 23;
