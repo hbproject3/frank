@@ -5,7 +5,9 @@
 <mapper namespace="model">
 	<select id="selectAll" resultType="hashmap" parameterType="hashmap">
 		SELECT * 
-		FROM (select ROWNUM AS RNUM, i.* from ${table} i order by ${pk}) 
+		FROM (select ROWNUM AS RNUM, i.* 
+			from ${table} i 
+			order by ${pk}) 
 		ORDER BY RNUM
 	</select>
 	<select id="selectAllType" resultType="hashmap" parameterType="hashmap">
@@ -24,7 +26,9 @@
 	<!-- board bASic paging -->
 	<select id="boardList" resultType="hashmap" parameterType="hashmap">
 		SELECT * 
-		FROM (select ROWNUM AS RNUM, i.* from ${table} i order by ${pk}) 
+		FROM (select ROWNUM AS RNUM, i.* 
+			from ${table} i 
+			order by ${pk}) 
 		ORDER BY RNUM DESC
 	</select>
 	<select id="boardCount" resultType="int" parameterType="String">
@@ -54,7 +58,8 @@
 		FROM (select ROWNUM AS RNUM, T.* 
 			FROM ${table} t 
 			order by ${pk}) 
-		WHERE ${schema} LIKE '%'||#{search_text}||'%' ORDER BY RNUM DESC
+		WHERE ${schema} LIKE '%'||#{search_text}||'%' 
+		ORDER BY RNUM DESC
 	</select>
 	<select id="boardDateSearch" resultType="hashmap" parameterType="hashmap">
 		SELECT ROWNUM AS RNUM, T.* 
@@ -71,7 +76,8 @@
 		FROM (select ROWNUM AS RNUM, T.* 
 			FROM ${table} t 
 			order by ${pk}) 
-		WHERE ${schema} LIKE '%'||#{search_text}||'%' and RNUM BETWEEN ${min} and ${max} ORDER BY RNUM DESC
+		WHERE ${schema} LIKE '%'||#{search_text}||'%' and RNUM BETWEEN ${min} and ${max} 
+		ORDER BY RNUM DESC
 	</select>
 	<!-- board detail -->
 	<select id="boardDetailOne" resultType="hashmap" parameterType="hashmap">
@@ -113,13 +119,17 @@
 		WHERE ${pk} = ${idx}
 	</select>
 	<update id="boardUpCnt" parameterType="hashmap">
-		UPDATE ${table} SET ${cnt}=${nowcnt} WHERE ${pk} = ${idx}
+		UPDATE ${table} 
+		SET ${cnt}=${nowcnt} 
+		WHERE ${pk} = ${idx}
 	</update>
 	
 	<!-- alarm_Board -->
 	
 	<update id="alarmUpCnt" parameterType="int">
-		UPDATE INFORM SET achk=1, ardate=SYSDATE WHERE anum = ${value}
+		UPDATE INFORM 
+		SET achk=1, ardate=SYSDATE 
+		WHERE anum = ${value}
 	</update>
 	
 	
@@ -129,19 +139,40 @@
 
 	<!-- store -->
 	<select id="searchListOptionString" parameterType="hashmap" resultType="hashmap">
-		SELECT * FROM (select ROWNUM AS rnum, t.* FROM ${table} t order by ${pk}) WHERE ${search_option} LIKE '%'||#{val}||'%' ORDER BY RNUM DESC
+		SELECT * 
+		FROM (select ROWNUM AS rnum, t.* 
+			FROM ${table} t 
+			order by ${pk}) 
+		WHERE ${search_option} LIKE '%'||#{val}||'%' 
+		ORDER BY RNUM DESC
 	</select>
 	<select id="searchListOptionNum" parameterType="hashmap" resultType="hashmap">
-		SELECT * FROM (select ROWNUM AS rnum, t.* FROM ${table} t order by ${pk}) WHERE ${search_option}=${val} ORDER BY RNUM DESC
+		SELECT * 
+		FROM (select ROWNUM AS rnum, t.* 
+			FROM ${table} t 
+			order by ${pk}) 
+		WHERE ${search_option}=${val} 
+		ORDER BY RNUM DESC
 	</select>
 	
 	
-	
-	
+	<!-- select -->
+	<select id="selectAllSales" resultType="hashmap" parameterType="hashmap">
+		select snum,menu_name,spay,sdate,stype, f.fnum, fname 
+		from sales s, franchise f, menu m
+		where s.fnum=f.fnum and m.menu_name=s.smenu
+		order by sdate desc
+	</select>
+
 	
 	<!-- stock -->
 	<select id="selectAllStock" resultType="hashmap">
-		 SELECT * FROM (select ROWNUM AS RNUM, s.fnum, s.wnum, s.nowstock, s.instock, s.outstock, s.udate,  w.wname, w.wtype from stock s, ware w where s.wnum = w.wnum order by fnum) ORDER BY wtype
+		 SELECT * 
+		 FROM (select ROWNUM AS RNUM, s.fnum, s.wnum, s.nowstock, s.instock, s.outstock, s.udate,  w.wname, w.wtype 
+		 	from stock s, ware w 
+		 	where s.wnum = w.wnum 
+		 	order by fnum) 
+		 ORDER BY wtype
 	</select>
 	<select id="searchStockListOptionString" parameterType="hashmap" resultType="hashmap">
 		SELECT * 
@@ -166,6 +197,9 @@
 	<select id="selectStockStoreType" resultType="hashmap" parameterType="hashmap">
 		SELECT f.fname from stock s franchise f where s.fnum = f.num group by fname
 	</select>
+
+
+	
 
 	<!-- order -->
 	<select id="selectAllOrders" resultType="hashmap">
@@ -237,11 +271,18 @@
 	
 	<!-- edit -->
 	<update id="alarmEdit" parameterType="hashmap">
-		UPDATE INFORM SET ASub=#{sub}, acntnt=#{cntnt}, ASdate=SYSDATE, ardate=NULL, achk=0 WHERE anum = ${anum}
+		UPDATE INFORM 
+		SET asub=#{sub}, acntnt=#{cntnt}, asdate=SYSDATE, ardate=NULL, achk=0 
+		WHERE anum = ${anum}
 	</update>
 	<update id="freeboardEdit" parameterType="hashmap">
 		UPDATE FREEBOARD 
-		SET BSUB=#{sub}, BCNTNT=#{cntnt}, 
+		SET BSUB=#{bsub}, BCNTNT=#{bcntnt}
+		WHERE bnum = ${bnum}
+	</update>
+	<update id="headnoticeEdit" parameterType="hashmap">
+		UPDATE HEADNOTICE 
+		SET BSUB=#{bsub}, BCNTNT=#{bcntnt}
 		WHERE bnum = ${bnum}
 	</update>
 	<update id="storeEdit" parameterType="hashmap">
@@ -253,14 +294,18 @@
 
 	<!-- etc -->
 	<select id="selectOne" parameterType="int" resultType="com.hb.Frank.model.dto.AdminVo">
-		SELECT ROWNUM AS rnum, t.* FROM GUEST_DAY03 t WHERE SABUN=#{value}
+		SELECT ROWNUM AS rnum, t.* 
+		FROM GUEST_DAY03 t 
+		WHERE SABUN=#{value}
 	</select>
 	<insert id="insertOne" parameterType="com.hb.Frank.model.dto.AdminVo">
-		INSERT INTO GUEST_DAY03 VALUES
-		(#{sabun},#{name},TO_CHAR(SYSDATE,'YYYY/MM/DD'),#{pay})
+		INSERT INTO GUEST_DAY03 
+		VALUES (#{sabun},#{name},TO_CHAR(SYSDATE,'YYYY/MM/DD'),#{pay})
 	</insert>
 	<update id="updateOne" parameterType="com.hb.Frank.model.dto.AdminVo">
-		UPDATE GUEST_DAY03 SET NAME=#{name},PAY=#{pay} WHERE SABUN=#{sabun}
+		UPDATE GUEST_DAY03 
+		SET NAME=#{name},PAY=#{pay} 
+		WHERE SABUN=#{sabun}
 	</update>
 
 </mapper>

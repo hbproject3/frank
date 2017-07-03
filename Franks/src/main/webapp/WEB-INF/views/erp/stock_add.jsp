@@ -17,34 +17,37 @@
 	
 	<div class="col-lg-9 section text-center">
 		<div class="page-header text-center">
-			<h3>점포 추가</h3>
+
+			<h3>재고 추가</h3>
 		</div>
 		<div class="well">
 			<form method="post">
 				<div class="row">
 					<div class="col-sm-6 form-group">
-						<label for="name">점포 이름</label>
-						<input type="text" name="name" id="name" class="form-control" />
-					</div>
+						<label for="store_name">점포 이름</label>
+						<select name="store_name" id="sname">
+							<c:foreach items=${store_list} var="store">
+								<option value="${store.fnum}">${store.fname}</option>
+							</c:foreach>
+						</select>
+					</div>	
 					<div class="col-sm-6 form-group">
-						<label for="phone">휴대폰 번호</label>
-						<input type="text" name="phone" id="phone" class="form-control" />
-					</div>
+						<label for="store_name">제품 종류</label>
+						<select name="ware_name" id="wname">
+							<c:foreach items=${ware_list} var="ware">
+								<option value="${ware.wnum}">${ware.wname}</option>
+							</c:foreach>
+						</select>
+					</div>	
+					<label for="stock_num">현재 재고</label>
+					<input type="text" name="stock_num" class="form-control" />
 				</div>
-				<div class="col-sm-12 form-group">
-					<label for="address">주소</label>
-					<input type="text" name="address" id="address" class="form-control">
-					<div class="text-right">
-						<button type="search" class="btn btn-default text-right">발송지 검색</button>
-					</div>
-				</div>
-				
 				<div class="text-center">
 					<br/>
 					<br/>
 					<button type="submit" class="btn btn-info" role="button">추가</button>
 					<button type="reset" class="btn btn-warning" role="button">취소</button>
-					<a href="./" class="btn btn-primary" role="button">목록</a>
+					<a href="../list" class="btn btn-primary" role="button">목록</a>
 				</div>
 			</form>
 		</div>

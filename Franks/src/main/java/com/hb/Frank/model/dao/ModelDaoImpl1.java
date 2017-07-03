@@ -155,7 +155,11 @@ public class ModelDaoImpl1 implements ModelDao {
 			list = sqlSession.selectList("model.selectAllOrders");
 			System.out.println(list);
 			return list;
-		}	
+		}else if(table.equalsIgnoreCase("sales")){
+			list = sqlSession.selectList("model.selectAllSales");
+			System.out.println(list);
+			return list;
+		}
 		list = sqlSession.selectList("model.selectAll", bean);
 		System.out.println(list);
 		return list;

@@ -19,47 +19,47 @@
 	<div class="col-lg-9 section text-center">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h5>글 수정</h5>
+				<h5>재고 수정</h5>
 			</div>
 			<div class="panel-body">
-				<div class="row">
-					<div class="col-sm-2">
-						<dt>글번호</dt>
-						<dd>${detail.RNUM }</dd>
-					</div>
-					<div class="col-sm-2">
-						<dt>확인 여부</dt>
-						<C:if test="${detail.ACHK == 1}">
-						<dd>확인</dd>
-						</C:if>
-						<C:if test="${detail.ACHK == 0}">
-						<dd>미확인</dd>
-						</C:if>
-					</div>
-					<div class="col-sm-3 col-sm-offset-5">
-						<dt>날짜</dt>
-						<dd><fmt:formatDate value="${detail.ASDATE }" pattern="yyyy년 MM월 dd일 hh시 mm분"/> </dd>
-					</div>
-				</div>
-				<br/>
-				<dt>글쓴이</dt>
-				<dd>홍길동</dd>
-				<br/>
-				<form method="POST">
-					<label for="">제목</label>
-					<input class="form-control" type="text" name="sub" id="sub" value="${detail.ASUB }"/>
-					<input type="hidden" name="anum" id="anum" value="${detail.ANUM }" />
+				<form method="post">
+					<div class="row">
+						<div class="col-sm-6 form-group">
+							<label for="store_name">점포 이름</label>
+							<select name="store_name" id="store_name">
+								<c:foreach items=${store_list} var="store">
+									<c:if test="${store.FNUM==detail.FNUM}">
+									<option value="${store.FNUM}" selected>${store.FNAME}</option>
+									</c:if>
+									<option value="${store.FNUM}">${store.FNAME}</option>
+								</c:foreach>
+							</select>
+						</div>	
+						<div class="col-sm-6 form-group">
+							<label for="ware_name">제품 종류</label>
+							<select name="ware_name" id="ware_name">
+								<c:foreach items=${ware_list} var="ware">
+									<c:if test="${ware.WNUM==detail.WNUM}">
+									<option value="${ware.WNUM}" selected>${ware.WNAME}</option>
+									</c:if>
+									<option value="${ware.WNUM}">${ware.WNAME}</option>
+								</c:foreach>
+							</select>
+						</div>	
+					</div>	
+					<label for="now">현재 재고</label>
+					<input type="text" name="now" class="form-control" value="${detail.NOWSTOCK}" />
+					<label for="in">들어온 재고</label>
+					<input type="text" name="in" class="form-control" value="${detail.INSTOCK}" />
+					<label for="out">나간 재고</label>
+					<input type="text" name="out" class="form-control" value="${detail.OUTSTOCK}" />
 					<br/>
-					<div class="text-center">
-						<textarea class="form-control detail_textarea" rows="5" name="cntnt" placeholder="${detail.ACNTNT }" style="background-color: white; color: black"></textarea>
-						<br/>
-						<br/>
-						<button type="submit" class="btn btn-info" role="button">수정</button>
-						<a href="../../alarm/${nowPage }" class="btn btn-primary" role="button">목록</a>
-						<button type="reset" class="btn btn-info" role="button">취소</button>
-						<a href="../delete/${idx }" class="btn btn-danger" role="button">삭제</a>
-					</div>
-				</form>
+					<br/>
+					<button type="submit" class="btn btn-info" role="button">수정</button>
+					<button type="reset" class="btn btn-info" role="button">취소</button>
+					<a href="../list/" class="btn btn-primary" role="button" id="list">목록</a>
+					<a href="../delete/${idx }" class="btn btn-danger" role="button">삭제</a>
+				</form>				
 			</div>
 		</div>
 	</div>

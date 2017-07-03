@@ -29,7 +29,7 @@
 		<form id="lookback" method="post">
 			<input type="hidden" name="list" value="back">
 		</form>
-		<h2 class="text-center" id="point"><strong><a href="" onclick="$('#lookback').submit(); return false;">알림 목록</a></strong></h2>
+		<h2 class="text-center" id="point"><strong><a href="" onclick="$('#lookback').submit(); return false;">공지사항</a></strong></h2>
 		<C:if test="${list!=null }">
 		<div class="panel panel-default">
 			<div class="panel-body">

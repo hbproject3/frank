@@ -25,37 +25,30 @@
 				<div class="row">
 					<div class="col-sm-2">
 						<dt>글번호</dt>
-						<dd>${detail.RNUM }</dd>
+						<dd>${detail.BNUM }</dd>
 					</div>
 					<div class="col-sm-2">
-						<dt>확인 여부</dt>
-						<C:if test="${detail.ACHK == 1}">
-						<dd>확인</dd>
-						</C:if>
-						<C:if test="${detail.ACHK == 0}">
-						<dd>미확인</dd>
-						</C:if>
+						<dt>조회 수</dt>
+						<dd>${detail.BCNT }</dd>
 					</div>
 					<div class="col-sm-3 col-sm-offset-5">
 						<dt>날짜</dt>
-						<dd><fmt:formatDate value="${detail.ASDATE }" pattern="yyyy년 MM월 dd일 hh시 mm분"/> </dd>
+						<dd><fmt:formatDate value="${detail.BDATE }" pattern="yyyy년 MM월 dd일 hh시 mm분"/> </dd>
 					</div>
 				</div>
 				<br/>
-				<dt>글쓴이</dt>
-				<dd>홍길동</dd>
 				<br/>
 				<form method="POST">
 					<label for="">제목</label>
-					<input class="form-control" type="text" name="sub" id="sub" value="${detail.ASUB }"/>
-					<input type="hidden" name="anum" id="anum" value="${detail.ANUM }" />
+					<input class="form-control" type="text" name="sub" id="sub" value="${detail.BSUB }"/>
+					<input type="hidden" name="bnum" id="bnum" value="${detail.BNUM }" />
 					<br/>
 					<div class="text-center">
-						<textarea class="form-control detail_textarea" rows="5" name="cntnt" placeholder="${detail.ACNTNT }" style="background-color: white; color: black"></textarea>
+						<textarea class="form-control detail_textarea" rows="5" name="cntnt" placeholder="${detail.BCNTNT }" style="background-color: white; color: black"></textarea>
 						<br/>
 						<br/>
 						<button type="submit" class="btn btn-info" role="button">수정</button>
-						<a href="../../alarm/${nowPage }" class="btn btn-primary" role="button">목록</a>
+						<a href="../../headnotice/${nowPage }" class="btn btn-primary" role="button">목록</a>
 						<button type="reset" class="btn btn-info" role="button">취소</button>
 						<a href="../delete/${idx }" class="btn btn-danger" role="button">삭제</a>
 					</div>

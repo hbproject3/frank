@@ -17,28 +17,26 @@
 	
 	<div class="col-lg-9 section text-center">
 		<div class="page-header text-center">
-			<h3>점포 추가</h3>
+
+			<h3>제품 추가</h3>
 		</div>
 		<div class="well">
 			<form method="post">
 				<div class="row">
 					<div class="col-sm-6 form-group">
-						<label for="name">점포 이름</label>
-						<input type="text" name="name" id="name" class="form-control" />
+						<label for="name">제품 이름</label>
+						<input type="text" name="name" class="form-control" />
 					</div>
 					<div class="col-sm-6 form-group">
-						<label for="phone">휴대폰 번호</label>
-						<input type="text" name="phone" id="phone" class="form-control" />
+						<label for="type">제품 타입</label>
+						<select name="type">
+							<option value="0">메인 메뉴 재료</option>
+							<option value="1">비품</option>
+							<option value="2">사이드 메뉴 재료</option>
+						</select>
 					</div>
 				</div>
-				<div class="col-sm-12 form-group">
-					<label for="address">주소</label>
-					<input type="text" name="address" id="address" class="form-control">
-					<div class="text-right">
-						<button type="search" class="btn btn-default text-right">발송지 검색</button>
-					</div>
-				</div>
-				
+			
 				<div class="text-center">
 					<br/>
 					<br/>

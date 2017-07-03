@@ -18,25 +18,28 @@
 	
 	<div class="col-lg-9 section text-center">
 		<div class="row content container-fluid">
-			<h2 class="text-center"><strong>점포 수정</strong></h2>
+			<h2 class="text-center"><strong>제품 수정</strong></h2>
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<h5>점포 정보</h5>
+					<h5>제품 정보</h5>
 				</div>
 				<div class="panel-body">
 					<form method="post">
 						<div class="row">
 							<div class="col-sm-6 form-group">
-								<label for="name">점포 이름</label>
-								<input type="text" class="form-control" name="name" id="name" value="${list.FNAME}">
+								<label for="name">제품 이름</label>
+								<input type="text" class="form-control" name="name" id="name" value="${detail.WNAME}">
 							</div>
 							<div class="col-sm-6 form-group">
-								<label for="phone">전화번호</label>
-								<input type="text" name="phone" id="phone" class="form-control" value="${list.FPHONE}">
-							</div>
-							<div class="col-sm-6 form-group">
-								<label for="address">주소</label>
-								<input type="text" name="address" id="address" class="form-control" value="${list.FADDRESS}">
+								<label for="type">타입</label>
+								<select name="type" class="form-control" id="type">
+								<c:foreach items="${types}" var="type">
+									<c:if test="${detail.WTYPE.equals(type.WTYPE)}">
+										<option value="${type.WTYPE}" selected>${type.WTYPE}</option>
+									</c:if>
+									<option value="${type.WTYPE}">${type.WTYPE}</option>
+								</c:foreach>	
+								</select>
 							</div>
 							<br/>
 							<br/>

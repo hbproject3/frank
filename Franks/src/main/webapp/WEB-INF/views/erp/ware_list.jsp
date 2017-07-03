@@ -33,9 +33,9 @@
 			<div class="row">
 				<form method="post" class="form-inline">
 					<div class="form-group col-sm-offset-1 col-sm-5">
-						<label for="wtype">물건종류</label>
+						<label for="type">물건종류</label>
 						<c:if test="${ list != null}">
-						<select name="wtype" class="form-control" id="goods_type">
+						<select name="type" class="form-control" id="goods_type">
 							<c:forEach items="${ type}" var="ware">
 								<c:if test='${(ware.WTYPE).equals("0") }'>
 								<option value="${ware.WTYPE }">메인 메뉴 재료</option>
@@ -54,8 +54,8 @@
 				</form>
 				<form method="post" class="form-inline">
 					<div class="form-group text-left col-sm-5col-sm-offset-1">
-						<label for="wname">물건이름</label>
-							<input type="text" class="form-control" name="wname" id="wname" placeholder="">
+						<label for="name">물건이름</label>
+							<input type="text" class="form-control" name="name" id="name" placeholder="">
 						<button class="btn btn-default" type="submit">물건검색</button>
 					</div>
 				</form>

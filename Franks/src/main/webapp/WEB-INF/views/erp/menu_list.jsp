@@ -33,22 +33,22 @@
 			<div class="row">
 				<form method="post" class="form-inline">
 					<div class="form-group col-sm-offset-1 col-sm-5">
-						<label for="menu_type">메뉴종류</label>
+						<label for="type">메뉴종류</label>
 						<c:if test="${list != null}">
-						<select name="menu_type" class="form-control" id="menu_type">
-							<c:forEach items="${type}" var="menu">
+						<select name="type" class="form-control" id="menu_type">
+							<c:forEach items="${types}" var="menu">
 								<option value="${menu.MENU_TYPE }">${menu.MENU_TYPE }</option>
 							</c:forEach>	
 						</select>	
 						</c:if>
-						<button class="btn btn-default" type="submit">메뉴이름 검색</button>
+						<button class="btn btn-default" type="submit">메뉴종류 검색</button>
 					</div>
 				</form>
 				<form method="post" class="form-inline">
 					<div class="form-group text-left col-sm-5col-sm-offset-1">
-						<label for="menu_name">메뉴이름</label>
-							<input type="text" class="form-control" name="menu_name" id="menu_name" placeholder="">
-						<button class="btn btn-default" type="submit">메뉴검색</button>
+						<label for="name">메뉴이름</label>
+							<input type="text" class="form-control" name="name" id="menu_name" placeholder="">
+						<button class="btn btn-default" type="submit">메뉴이름 검색</button>
 					</div>
 				</form>
 			</div>
@@ -65,10 +65,10 @@
 			</tr>
 			<c:forEach items="${ list}" var="menu">
 			<tr>
-				<td><a href="./detail/${menu.MENU_NUM}">${menu.MENU_NUM }</a></td>
-				<td><a href="./detail/${menu.MENU_NUM}">${menu.MENU_NAME }</a></td>
-				<td><a href="./detail/${menu.MENU_NUM}">${menu.MENU_PRICE }</a></td>
-				<td><a href="./detail/${menu.MENU_NUM}">${menu.MENU_TYPE }</a></td>
+				<td>${menu.MENU_NUM }</td>
+				<td>${menu.MENU_NAME }</td>
+				<td>${menu.MENU_PRICE }</td>
+				<td>${menu.MENU_TYPE }</td>
 				<td class="text-center">
 				<a href="./edit/${menu.WNUM}" class="btn btn-default" role="button">수정</a>
 				<a href="./delete/${menu.WNUM}" class="btn btn-default" role="button">삭제</a>

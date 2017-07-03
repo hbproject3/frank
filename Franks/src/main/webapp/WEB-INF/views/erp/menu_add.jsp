@@ -17,27 +17,28 @@
 	
 	<div class="col-lg-9 section text-center">
 		<div class="page-header text-center">
-			<h3>점포 추가</h3>
+
+			<h3>메뉴 추가</h3>
 		</div>
 		<div class="well">
 			<form method="post">
 				<div class="row">
 					<div class="col-sm-6 form-group">
-						<label for="name">점포 이름</label>
-						<input type="text" name="name" id="name" class="form-control" />
+						<label for="name">메뉴 이름</label>
+						<input type="text" name="name" class="form-control" />
 					</div>
 					<div class="col-sm-6 form-group">
-						<label for="phone">휴대폰 번호</label>
-						<input type="text" name="phone" id="phone" class="form-control" />
+						<label for="price">메뉴 가격</label>
+						<input type="number" name="price" class="form-control" min="0" />
 					</div>
 				</div>
-				<div class="col-sm-12 form-group">
-					<label for="address">주소</label>
-					<input type="text" name="address" id="address" class="form-control">
-					<div class="text-right">
-						<button type="search" class="btn btn-default text-right">발송지 검색</button>
-					</div>
-				</div>
+				<label for="type">메뉴 타입</label>
+				<select name="type" class="form-control">
+					<option value="단품메뉴">단품메뉴</option>
+					<option value="음료메뉴">음료메뉴</option>
+					<option value="사이드메뉴">사이드메뉴</option>
+					<option value="세트메뉴">세트메뉴</option>
+				</select>
 				
 				<div class="text-center">
 					<br/>

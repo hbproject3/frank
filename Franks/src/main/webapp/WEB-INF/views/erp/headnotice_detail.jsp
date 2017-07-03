@@ -17,7 +17,7 @@
 	</div>
 	
 	<div class="col-lg-9 section text-center">
-		<h2 class="text-center"><strong>알림 목록</strong></h2>
+		<h2 class="text-center"><strong>공지사항 상세</strong></h2>
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h5>글 읽기</h5>
@@ -38,10 +38,8 @@
 						<dd>${detail.BDATE }</dd>
 					</div>
 				</div>
-				<dt>글쓴이</dt>
-				<dd>운영자</dd>
 				<dt>제목</dt>
-				<dd>글번호 4에 대한 답변입니다</dd>
+				<dd>${detail.BSUB}</dd>
 				<div class="text-center">
 					<textarea class="form-control detail_textarea" rows="5" name="cntnt" placeholder="${detail.BCNTNT }" readonly style="background-color: white; color: black"></textarea>
 					<br/>
